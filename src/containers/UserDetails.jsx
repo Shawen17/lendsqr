@@ -147,66 +147,17 @@ margin:10px 10px;
 const UserDetails = (props)=>{
     window.title='User-details'
     const [general,setGeneral]= useState(true)
-    const [setDocument]= useState(false)
-    const [setBank]= useState(false)
-    const [setLoan]= useState(false)
-    const [setSaving]= useState(false)
-    const [setApp]= useState(false)
-
     var user= JSON.parse(localStorage.getItem('user'))
     var data = JSON.parse(localStorage.getItem('data'))
     
     const onClickGeneral =()=>{
-        setDocument(false);
-        setBank(false);
-        setLoan(false);
-        setSaving(false);
-        setApp(false) 
         return setGeneral(true)
     }
 
-    const onClickDocument =()=>{
-        
-        setGeneral(false);
-        setBank(false);
-        setLoan(false);
-        setSaving(false);
-        setApp(false) 
-        return setDocument(true);
+    const onTabChange =()=>{
+        return setGeneral(false)
     }
-    const onClickBank =()=>{
-        setGeneral(false);
-        setDocument(false);
-        setLoan(false);
-        setSaving(false);
-        setApp(false)
-        return setBank(true)
-    }
-    const onClickLoan =()=>{
-        setGeneral(false);
-        setDocument(false);
-        setBank(false);
-        setSaving(false);
-        setApp(false)
-        return setLoan(true)
-
-    }
-    const onClickSaving =()=>{
-        setGeneral(false);
-        setDocument(false);
-        setBank(false);
-        setLoan(false);
-        setApp(false)
-        return setSaving(true)
-    }
-    const onClickApp =()=>{
-        setGeneral(false);
-        setDocument(false);
-        setBank(false);
-        setLoan(false);
-        setSaving(false);
-        return setApp(true)
-    }
+    
 
     const buttonClick=(str)=>{
         if(str==='blacklist'){
@@ -395,12 +346,12 @@ const UserDetails = (props)=>{
                             </div>
                         </Wrapper>
                         <Tabs>
-                            <TabDesc onClick={()=> {onClickGeneral}} >General Details</TabDesc>
-                            <TabDesc onClick={()=> {onClickDocument}} >Documents</TabDesc>
-                            <TabDesc onClick={()=>  {onClickBank}} >Bank Details</TabDesc>
-                            <TabDesc onClick={()=> {onClickLoan}} >Loans</TabDesc>
-                            <TabDesc onClick={()=> {onClickSaving}} >Savings</TabDesc>
-                            <TabDesc onClick={()=> {onClickApp}}  >App and System</TabDesc>
+                            <TabDesc onClick={onClickGeneral} >General Details</TabDesc>
+                            <TabDesc onClick={onTabChange} >Documents</TabDesc>
+                            <TabDesc onClick={onTabChange} >Bank Details</TabDesc>
+                            <TabDesc onClick={onTabChange} >Loans</TabDesc>
+                            <TabDesc onClick={onTabChange} >Savings</TabDesc>
+                            <TabDesc onClick={onTabChange}  >App and System</TabDesc>
                         </Tabs>
                     </Info>
                     {Display()}
