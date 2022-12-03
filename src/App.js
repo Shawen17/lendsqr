@@ -4,12 +4,15 @@ import { BrowserRouter, Routes, Route} from "react-router-dom";
 import Login from './containers/Login';
 import Dashbaord from './containers/Dashboard';
 import UserDetails from './containers/UserDetails';
-import {useEffect} from 'react';
+import {useEffect,useState} from 'react';
 import axios from 'axios';
 
 
 
+
 function App() {
+  var [data,setData]= useState([])
+  const [loaded,setLoaded]= useState(false)
   useEffect(()=>{
         
     const config ={
@@ -18,10 +21,10 @@ function App() {
             'Accept':'application/json'
         }
     };
-    axios.get('https://6270020422c706a0ae70b72c.mockapi.io/lendsqr/api/v1/users', config).then(res=>localStorage.setItem('data',JSON.stringify(res.data)));
+    axios.get('https://6270020422c706a0ae70b72c.mockapi.io/lendsqr/api/v1/users', config).then(res=>setData(res.data));
+    setLoaded(true)
+    },[])
     
-  },[])
-    const data= JSON.parse(localStorage.getItem('data'))
     const statusOptions = ['Inactive','Blacklisted','Pending','Active','Others']
     const maritalStatus = ['Single','Married','Divorced']
     const children = ['None','Yes']
@@ -33,8 +36,13 @@ function App() {
         const item = arr[randomIndex]
         return item
     }
+    
 
-    var updatedData = JSON.parse(localStorage.getItem('data')).map((user)=>{
+    if(loaded){
+      
+      localStorage.setItem('data',JSON.stringify(data))
+
+      var updatedData = JSON.parse(localStorage.getItem('data')).map((user)=>{
         if('status' in data){
             return {...user }
         }else{
@@ -42,9 +50,10 @@ function App() {
                 children:getRandomItem(children), typeofResidence:getRandomItem(typeofResidence),  guarantorRelationship:getRandomItem(relationship) }
         }
     })
-
     localStorage.setItem('data',JSON.stringify(updatedData))
+    }
 
+    
   return (
     <BrowserRouter>
       <Routes>

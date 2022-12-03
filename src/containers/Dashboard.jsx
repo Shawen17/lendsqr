@@ -84,7 +84,6 @@ const Dashbaord=()=>{
     const [searchValue,setSearchValue] = useState([])
     var [raw] = useState(JSON.parse(localStorage.getItem('data')))
 
-
     const HandleInputChange = (event) =>{
         setSearchValue(event.target.value)
       }
@@ -93,8 +92,6 @@ const Dashbaord=()=>{
         return raw
     },[raw])
 
-    console.log('search',searchValue)
-    
     var filteredUsers;
 
     if (searchValue.length<1){
