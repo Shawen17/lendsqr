@@ -82,7 +82,7 @@ opacity:1
 const Dashbaord=()=>{
     window.title='Dashboard'
     const [searchValue,setSearchValue] = useState([])
-    var [raw,setData] = useState(JSON.parse(localStorage.getItem('data')))
+    var [raw] = useState(JSON.parse(localStorage.getItem('data')))
 
 
     const HandleInputChange = (event) =>{

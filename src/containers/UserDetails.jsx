@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from 'react';
+import React,{useState} from 'react';
 import styled from 'styled-components';
 import {KeyboardBackspaceOutlined,StarOutlined,StarOutlineOutlined} from '@material-ui/icons';
 import { Link } from 'react-router-dom';
@@ -147,11 +147,11 @@ margin:10px 10px;
 const UserDetails = (props)=>{
     window.title='User-details'
     const [general,setGeneral]= useState(true)
-    const [document,setDocument]= useState(false)
-    const [bank,setBank]= useState(false)
-    const [loan,setLoan]= useState(false)
-    const [saving,setSaving]= useState(false)
-    const [app,setApp]= useState(false)
+    const [setDocument]= useState(false)
+    const [setBank]= useState(false)
+    const [setLoan]= useState(false)
+    const [setSaving]= useState(false)
+    const [setApp]= useState(false)
 
     var user= JSON.parse(localStorage.getItem('user'))
     var data = JSON.parse(localStorage.getItem('data'))
