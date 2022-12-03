@@ -393,12 +393,12 @@ const UserDetails = (props)=>{
                             </div>
                         </Wrapper>
                         <Tabs>
-                            <TabDesc onClick={onClickGeneral} >General Details</TabDesc>
-                            <TabDesc onClick={onClickDocument} >Documents</TabDesc>
-                            <TabDesc onClick={onClickBank} >Bank Details</TabDesc>
-                            <TabDesc onClick={onClickLoan} >Loans</TabDesc>
-                            <TabDesc onClick={onClickSaving} >Savings</TabDesc>
-                            <TabDesc onClick={onClickApp}  >App and System</TabDesc>
+                            <TabDesc onClick={()=> {onClickGeneral}} >General Details</TabDesc>
+                            <TabDesc onClick={()=> {onClickDocument}} >Documents</TabDesc>
+                            <TabDesc onClick={()=>  {onClickBank}} >Bank Details</TabDesc>
+                            <TabDesc onClick={()=> {onClickLoan}} >Loans</TabDesc>
+                            <TabDesc onClick={()=> {onClickSaving}} >Savings</TabDesc>
+                            <TabDesc onClick={()=> {onClickApp}}  >App and System</TabDesc>
                         </Tabs>
                     </Info>
                     {Display()}
