@@ -36,3 +36,165 @@
     transform: rotate(360deg);
   }
 }
+
+.login-button{
+  cursor: pointer;
+  text-align: center;
+  font-size: 10px;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  background-color: white;
+  font-weight: bold;
+  color: teal;
+  border: none;
+  border-radius: 10px;
+  width: 50%;
+  height: 30px;
+  margin-top: 20px;
+  
+}
+
+.nav-link{
+  
+  text-decoration: none;
+  font-weight: 500px;
+  font-size: 18px;
+  ;
+
+}
+
+ul {
+  list-style-type: none;
+  
+}
+
+h5{
+  font-size: 15px;
+  font-weight: bold;
+  opacity: 0.5;
+  padding-left: 10px;
+}
+
+.show-dropdown{
+  display:block;
+}
+
+.hide-dropdown{
+  display:none;
+  
+  
+}
+
+th {
+  font-family: 'Work Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 14px;
+  text-transform: uppercase;
+  color: #545F7D;
+  cursor: pointer;
+
+}
+td {
+  font-family:'Work Sans';
+  color:#545F7D;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px;
+}
+
+.menu-bar {
+  cursor: pointer;
+  border-radius: 50%;
+  border: none;
+  background-color: white;
+}
+.menu-bar:hover{
+  background-color: #ccc;
+  
+}
+
+.hide-menu-options{
+  display: none;
+}
+
+.show-menu-options{
+  display:block;
+  width:150px;
+  border: 1px solid #ccc;
+}
+
+.show-menu-options li{
+  border-bottom:  1px solid #ccc;
+  width: 100%;
+  cursor:pointer;
+  
+}
+.show-menu-options li:hover{
+  transform: scale(1.1);
+  transition: all 1s ease-in-out;
+  background: #39CDCC;
+  color:black
+}
+
+#active-status{
+  border-radius: 10px;
+  color: #39CD62;
+  background-color: whitesmoke;
+  padding:5px;
+  font-family: 'Work sans';
+
+}
+
+#inactive-status{
+  border-radius: 10px;
+  color: grey;
+  background-color: whitesmoke;
+  padding:5px;
+  font-family: 'Work sans';
+}
+
+#blacklisted-status{
+  border-radius: 10px;
+  color: red;
+  background-color:pink;
+  padding:5px;
+  font-family: 'Work sans';
+}
+
+#pending-status{
+  border-radius: 10px;
+  color: yellow;
+  background-color:rgb(250, 219, 224);
+  padding:5px;
+  font-family: 'Work sans';
+}
+
+.sidebar-link{
+  
+font-style: normal;
+font-weight: 400;
+font-size: 16px;
+line-height: 19px;
+color:#213F7D;
+text-decoration: none;
+
+
+}
+
+.sidebar-link:hover{
+  background-color: rgba(127,255,212,0.1);
+  
+ 
+}
+
+.sidebar-title{
+margin-bottom: 10px;  
+font-style: normal;
+font-weight: 500;
+font-size: 12px;
+line-height: 14px;
+color: #545F7D;
+}
