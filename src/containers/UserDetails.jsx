@@ -157,45 +157,47 @@ const UserDetails = (props)=>{
     var data = JSON.parse(localStorage.getItem('data'))
     
     const onClickGeneral =()=>{
-        setGeneral(true);
         setDocument(false);
         setBank(false);
         setLoan(false);
         setSaving(false);
-        setApp(false)
+        setApp(false) 
+        return setGeneral(true)
     }
 
     const onClickDocument =()=>{
+        
         setGeneral(false);
-        setDocument(true);
         setBank(false);
         setLoan(false);
         setSaving(false);
-        setApp(false)
+        setApp(false) 
+        return setDocument(true);
     }
     const onClickBank =()=>{
         setGeneral(false);
         setDocument(false);
-        setBank(true);
         setLoan(false);
         setSaving(false);
         setApp(false)
+        return setBank(true)
     }
     const onClickLoan =()=>{
         setGeneral(false);
         setDocument(false);
         setBank(false);
-        setLoan(true);
         setSaving(false);
         setApp(false)
+        return setLoan(true)
+
     }
     const onClickSaving =()=>{
         setGeneral(false);
         setDocument(false);
         setBank(false);
         setLoan(false);
-        setSaving(true);
         setApp(false)
+        return setSaving(true)
     }
     const onClickApp =()=>{
         setGeneral(false);
@@ -203,7 +205,7 @@ const UserDetails = (props)=>{
         setBank(false);
         setLoan(false);
         setSaving(false);
-        setApp(true)
+        return setApp(true)
     }
 
     const buttonClick=(str)=>{
