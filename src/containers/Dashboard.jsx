@@ -112,7 +112,7 @@ const Dashbaord=()=>{
             const lowerCaseEmail=user.email.toLowerCase()
             const lowerCaseUsername = user.userName.toLowerCase()
             const lowerCaseStatus= user.status.toLowerCase()
-            return lowerCaseEmail.includes(searchValue.toLowerCase()) || lowerCaseUsername.includes(searchValue.toLowerCase()) || lowerCaseStatus.includes(searchValue.toLowerCase())
+            return lowerCaseEmail.includes(searchValue.trim().toLowerCase()) || lowerCaseUsername.includes(searchValue.trim().toLowerCase()) || lowerCaseStatus.includes(searchValue.trim().toLowerCase())
     })
     }
 
