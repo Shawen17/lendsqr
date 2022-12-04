@@ -14,7 +14,11 @@ left:20px
 export const Brand = styled.div`
 display:flex;
 flex:0.5;
-margin-bottom:30px`
+margin-bottom:30px;
+line-height:36px;
+align-items:center;
+justify-content:left
+`
 
 export const BrandName = styled.h1`
 color:#00308f ;
@@ -37,17 +41,16 @@ justify-content:center;
 
 const Right = styled.div`
 
-flex:1;
+width:50%;
 align-items:center;
 justify-content:center;
 margin-left:auto;
-position:relative;
+
 `
 
 const Left = styled.div`
-flex:1;
-align-items:center;
-justify-content:center;
+width:50%;
+
 `
 
 const Form = styled.div`
@@ -86,7 +89,7 @@ const Input = styled.input`
       }
 `
 const Art  = styled.img`
-height:100%;
+width:100%;
 margin-top:20px;
 justity-content:center`
 

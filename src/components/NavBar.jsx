@@ -1,23 +1,38 @@
 import React,{useState} from "react";
 import styled from "styled-components";
-import { Search,NotificationsOutlined,KeyboardArrowDownOutlined } from "@material-ui/icons";
+import { Search,NotificationsOutlined,KeyboardArrowDownOutlined,Menu } from "@material-ui/icons";
 import {Link} from 'react-router-dom';
+
+
+
+
+const Navlink = styled.div`
+    
+    display:flex;
+    color:#00308f;
+    align-items:center;
+    justify-content:flex-start;
+    margin-left:0px;
+    width:30%
+    `
 
 const Wrapper = styled.div`
 display:flex;
 height:60px;
+max-width:100%;
 align-items:center;
-justify-content:space-between`
-
-const SearchContainer = styled.div`
-    border: 0.5px solid grey;
-    border-radius:6px;
-    align-items:center;
-    justify-content:flex-end;
-    display:flex;
-    height:40px;
-    flex:1.5;
-    margin-left:20px`
+justify-content:space-between;
+@media screen and (min-width:0px) and (max-width:568px){
+   max-width:100%;
+   height:150px;
+   position:relative;
+   flex-direction:column-reverse;
+   align-items:left;
+   justify-content:flex-start;
+   ${Navlink}{
+    margin-left:20px;
+   }
+}`
 
 const Input = styled.input`
     type: text;
@@ -30,6 +45,7 @@ const Input = styled.input`
       border:none
     }
 `
+
 const SearchIcon = styled.div`
     height:100%;
     opacity:0.5;
@@ -38,15 +54,37 @@ const SearchIcon = styled.div`
     align-items:center;
     justify-content:center;`
 
-const Navlink = styled.div`
-    flex:1;
-    width:40%;
-    display:flex;
-    color:#00308f;
+
+
+const SearchContainer = styled.div`
+    border: 0.5px solid grey;
+    border-radius:6px;
     align-items:center;
     justify-content:flex-end;
-    margin-left:200px
-    `
+    display:flex;
+    height:40px;
+    width:50%;
+    margin-left:0px;
+    @media screen and (min-width:0px) and (max-width:568px){
+        margin-left:0px;
+        height:30px;
+        width:100%;
+        ${Input}{
+            width:80%;
+        }
+        ${SearchIcon}{
+            width:20%;
+        }
+        ${Navlink}{
+            margin-left:0px;
+            flex:0.5;
+        }
+    }`
+
+
+
+
+
 const Image = styled.img`
     height:60px;
     width:60px;
@@ -56,10 +94,10 @@ const Image = styled.img`
 export const DropDownContainer = styled.div`
     display:flex;
     flex-direction:column;
-    width: 100%;
+    width:20%;
     justify-content:center;
     align-items:right;
-    padding-left:20px;
+    padding-left:100px;
     
     `
     
@@ -67,7 +105,6 @@ export const DropDownHeader = styled.div`
     justify-content:center;
     align-items:center;
     
-    margin-bottom: 0.8em;
     font-weight:bold;
     font-family:Calibri;
     font-size:15px;
@@ -94,6 +131,7 @@ export const DropDownList = styled.ul`
 export const ListItem= styled.li`
     list-style:none;
     pointer:cursor;
+    z-index:9
     
     `
 
@@ -108,26 +146,31 @@ const NavBar =(props)=>{
     return(
 
         <Wrapper>
+            <div  className="hamburger">
+                <Menu onClick={props.onMenuClick} />
+            </div>
             <SearchContainer>
                 <Input placeholder="search for anything" value={props.searchValue}  onChange={props.HandleInputChange}  /> 
                 <SearchIcon>
                     <Search style={{ fontSize:'20px',color:'white',margin:'10px 20px'}} /> 
                 </SearchIcon>
             </SearchContainer>
-            <Navlink>
-                <Link to='/' style={{marginRight:'25px'}}>Docs</Link>
-                <NotificationsOutlined  style={{height:40,width:40,marginRight:'6px' }}/>
-                <Image  src='/static/icons/my_selfie.jpg' style={{marginRight:'6px'}} />
-            </Navlink>
-            <DropDownContainer style={{width:'20%',position:'relative'}} >
-                <DropDownHeader style={{cursor:'pointer'}} >Shawen<span> <KeyboardArrowDownOutlined  onClick={handleDropDown } /> </span>  </DropDownHeader>
-                <DropDownListContainer style={{position:'absolute',marginTop:'80px'}} >
-                    <DropDownList className={toggle? 'show-dropdown' : 'hide-dropdown'}>
-                        <ListItem>account</ListItem>
-                        <ListItem>logout</ListItem>
-                    </DropDownList>
-                </DropDownListContainer>
-            </DropDownContainer>
+            <div style={{display:'flex',alignItems:'center',justifyContent:'flex-start'}}>
+                <Navlink>
+                    <Link to='/' style={{marginRight:'25px'}}>Docs</Link>
+                    <NotificationsOutlined  style={{height:40,width:40,marginRight:'6px' }}/>
+                    <Image  src='/static/icons/my_selfie.jpg'  />
+                </Navlink>
+                <DropDownContainer >
+                    <DropDownHeader style={{cursor:'pointer'}} onClick={handleDropDown }  >Shawen<span> <KeyboardArrowDownOutlined /> </span>  </DropDownHeader>
+                    <DropDownListContainer style={{position:'absolute',marginTop:'80px'}} >
+                        <DropDownList className={toggle? 'show-dropdown' : 'hide-dropdown'}>
+                            <ListItem>account</ListItem>
+                            <ListItem>logout</ListItem>
+                        </DropDownList>
+                    </DropDownListContainer>
+                </DropDownContainer>
+            </div>
         </Wrapper>
 
     )

@@ -6,19 +6,27 @@ import {KeyboardArrowDownOutlined} from '@material-ui/icons';
 
 
 const Container = styled.div`
-height:100%;
+width:100%;
 margin-left:6px`
 
 export const Brand = styled.div`
 display:flex;
-flex:0.5;
-margin-bottom:30px`
+width:100%;
+margin-bottom:30px;
+justify-content:flex-start;
+align-items:left;
+;
+`
 
 export const BrandName = styled.h1`
 color:#00308f ;
 font-weight:bold;
 align-items:center;
-justify-content:center;`
+justify-content:center;
+
+
+`
+
 
 export const BrandLogo = styled.div`
 align-items:center;
@@ -94,7 +102,7 @@ const SideBar = () => {
                 </BrandName>
         </Brand>
         <DropDownContainer style={{paddingBottom:'15px',paddingLeft:'0px'}}>
-            <div  className='sidebar-title'  style={{fontSize:'18px'}}><span><img src='/static/icons/dashboard.png' alt='dash'/></span> Switch Organization <span> <KeyboardArrowDownOutlined style={{cursor:'pointer'}} onClick={handleDropDown } /> </span>  </div>
+            <div  className='sidebar-title sw'><span><img src='/static/icons/dashboard.png' alt='dash'/></span> Switch Organization <span> <KeyboardArrowDownOutlined style={{cursor:'pointer'}} onClick={handleDropDown } /> </span>  </div>
             <DropDownListContainer>
                 <DropDownList className={toggle? 'show-dropdown' : 'hide-dropdown'} >
                     <ListItem>lendsqr</ListItem>

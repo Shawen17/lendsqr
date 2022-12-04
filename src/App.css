@@ -86,7 +86,7 @@ h5{
 }
 
 th {
-  font-family: 'Work Sans';
+  font-family: Work Sans;
   font-style: normal;
   font-weight: 600;
   font-size: 12px;
@@ -99,8 +99,8 @@ th {
 td {
   font-family:'Work Sans';
   color:#545F7D;
-  font-size: 14px;
   font-style: normal;
+  font-size: 14px;
   font-weight: 400;
   line-height: 16px;
   opacity:1
@@ -187,8 +187,6 @@ text-decoration: none;
 
 .sidebar-link:hover{
   background-color: rgba(127,255,212,0.1);
-  
- 
 }
 
 .sidebar-title{
@@ -198,4 +196,150 @@ font-weight: 500;
 font-size: 12px;
 line-height: 14px;
 color: #545F7D;
+}
+
+.sw{
+  font-size: 18px;
+}
+
+.sidebar-appear{
+  display:block
+}
+
+.appear{
+  display:block;
+}
+
+.disappear{
+  display:none;
+}
+
+
+.hamburger {
+  cursor: pointer;
+  display: none;
+  transform: translateY(-50%);
+}
+#user-table {
+  max-width:100vw;
+
+}
+
+
+
+@media screen and (min-width:320px) and (max-width:480px){
+ 
+ 
+  .sidebar-title{
+    font-size:10px;
+    line-height: 12px;
+  }
+  .sidebar-link{
+    font-size: 13px;
+    line-height: 15px;  
+  }
+  th{
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 12px;
+  }
+  td{
+    font-size: 12px;
+    font-weight: 300;
+    line-height: 14px;
+  }
+  .sw{
+    font-size: 15px;
+  }
+ 
+}
+.dashboard-link{
+  display: flex;
+  margin-left:80px;
+  color:black;
+  text-decoration:none;
+  padding-top:50px;
+  margin-bottom:30px
+}
+
+.info{
+  display:flex;
+  flex-direction:column;
+  margin-right:30px
+}
+.info-v{
+  margin-right:30px
+}
+
+.info-u{
+  display:flex;
+  flex-direction:column;
+  margin-right:30px
+}
+.info-u p{
+  font-size:14px;
+  font-family:Work Sans;
+  font-style:normal;
+  font-weight:500;
+  color:#545F7D
+}
+.acc-bal-p{
+  font-size:22px;
+  font-family:Work Sans;
+  font-style:normal;
+  font-weight:bold
+}
+
+@media screen and (min-width:0px) and (max-width:568px){
+  #user-table {
+    max-width:100%;
+    
+  }
+  .hamburger {
+    display: block;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    position:absolute;
+    top:10px;
+  }
+
+  .sidebar-appear{
+    display:none
+  }
+  .dashboard-link{
+    margin:5px;
+    padding-top:30px;
+    margin-bottom: 20px;
+  }
+  .info{
+    margin-right:0px
+  }
+  .info h3{
+    font-size:15px
+  }
+  .info p{
+    font-size:10px
+  }
+  .info-v{
+    margin-right:0px
+  }
+  .info-u{
+    margin-right:0px
+  }
+  .info-u p{
+    font-size:12px;
+  }
+  .acc-bal-p{
+    font-size:20px;
+  }
+}
+
+@media screen and (min-width:569px) and (max-width:2000px){
+  .appear{
+    display: block;
+  }
+  .disappear{
+    display:block;
+  }
 }

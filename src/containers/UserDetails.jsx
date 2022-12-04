@@ -9,31 +9,51 @@ import NavBar from '../components/NavBar';
 
 const Container = styled.div`
 margin:8px;
-display:flex;`
+display:flex;
+width:100vw`
 
 const Left = styled.div`
-width:32%`
+position:relative;
+`
 
 const Right= styled.div`
-width:100%;
-margin-left:20px;
+width:75%;
+
+@media screen and (min-width:0px) and (max-width:568px){
+    max-width:100%;
+    margin:1px
+}
 `
 
 const UserAction = styled.div`
 display:flex;
 justify-content: space-even;
 align-items:center;
-margin-left:80px;`
+margin-left:80px;
+@media screen and (min-width:0px) and (max-width:568px){
+    
+    margin:5px;
+}`
 
 const UserActionButton = styled.button`
 height:40px;
 width:200px;
 border-radius:6px;
+margin-left:auto
 font-size:15px;
 font-weight:bold;
 margin-right:10px;
 border:1px solid ${props=> props.color};
-color: ${props=> props.color}`
+color: ${props=> props.color};
+@media screen and (min-width:0px) and (max-width:568px){
+    height:40px;
+    width:130px;
+    font-size:12px;
+    margin:auto;
+    color: ${props=> props.color};
+    border:1px solid ${props=> props.color};
+    
+}`
 
 const Info = styled.div`
 margin-left:80px;
@@ -41,6 +61,11 @@ background-color:white;
 margin-top:30px;
 border-radius:4px;
 height:200px;
+@media screen and (min-width:0px) and (max-width:568px){
+    margin:5px;
+    height:220px;
+
+}
 `
 
 const Wrapper =styled.div`
@@ -56,7 +81,12 @@ padding-top:40px
 const VerticalLine = styled.div`
 border-left:1px solid #ccc;
 height:100px;
-margin-right:10px;`
+margin-right:10px;
+@media screen and (min-width:0px) and (max-width:568px){
+    margin-right:1px;
+
+}
+`
 
 const Rating = styled.div`
 display:flex;
@@ -69,8 +99,23 @@ width:100px;
 margin-left:20px;
 margin-right:20px;
 color:#213F7D;
+@media screen and (min-width:0px) and (max-width:568px){
+    height:60px;
+    width:60px;
+    border-radius:50%;
+    margin:5px
 
+
+}
 `
+
+const HorizontalLine = styled.div`
+
+border-bottom:1px solid #ccc;
+width:977px;
+margin:10px 10px;
+`
+
 const Details = styled.div`
 margin-left:80px;
 background-color:white;
@@ -81,14 +126,17 @@ align-items:left;
 border-radius:4px;
 color: #213F7D;
 position:relative;
+@media screen and (min-width:0px) and (max-width:568px){
+    margin:5px;
+    ${HorizontalLine}{
+        width:100%;
+
+    }
+}
 
 `
 
-const InfoWrapper = styled.div`
-display:flex;
-align-items:center;
-justify-content:flex-start;
-margin:20px 20px`
+
 
 const PersonalInfo = styled.div`
 display:flex;
@@ -111,6 +159,31 @@ font-weight: bold;
 font-size: 16px;
 line-height: 19px;
 `
+
+const InfoWrapper = styled.div`
+display:flex;
+align-items:center;
+justify-content:flex-start;
+margin:20px 20px;
+width:100%;
+@media screen and (min-width:0px) and (max-width:568px){
+    flex-wrap:wrap;
+    margin:10px 10px;
+   ${PersonalInfo}{
+    margin:4px;
+   } 
+   ${Header}{
+    font-size: 9px;
+    line-height: 11px;
+    font-weight: bold;
+   }
+   ${HeaderValue}{
+    font-size: 12px;
+    line-height: 14px;  
+   }
+}
+`
+
 const Tabs = styled.div`
 display:flex;
 font-family: 'Work Sans';
@@ -120,6 +193,12 @@ font-size: 16px;
 line-height: 19px;
 justify-content:center;
 align-items:center;
+@media screen and (min-width:0px) and (max-width:568px){
+    margin-buttom:10px;
+    font-size:12px;
+    line-height:16px;
+    margin:0px;
+}
 
 `
 
@@ -136,19 +215,22 @@ cursor:pointer;
 }
 `
 
-const HorizontalLine = styled.div`
 
-border-bottom:1px solid #ccc;
-width:977px;
-margin:10px 10px;
-`
 
 
 const UserDetails = (props)=>{
     window.title='User-details'
+    const[display,setDisplay]=useState(false)
     const [general,setGeneral]= useState(true)
     var user= JSON.parse(localStorage.getItem('user'))
     var data = JSON.parse(localStorage.getItem('data'))
+    
+
+    
+
+    const onMenuClick =()=>{
+        setDisplay(!display)
+    }
     
     const onClickGeneral =()=>{
         return setGeneral(true)
@@ -313,36 +395,34 @@ const UserDetails = (props)=>{
   return (
     
         <Container>
-            <Left>
+            <Left className={display ? 'appear' : 'disappear'}>
                 <SideBar />
             </Left>
             <Right>
-                <NavBar />
+                <NavBar onMenuClick={onMenuClick}/>
                 <div style={{backgroundColor:'whitesmoke',marginTop:'10px',height:'100%'}}>
-                    <Link style={{display: 'flex',marginLeft:'80px',color:'black',textDecoration:'none',paddingTop:'50px',marginBottom:'30px' }} to='/dashboard'><KeyboardBackspaceOutlined className='menu-bar'/><span>Back to Users</span></Link>
+                    <Link className='dashboard-link' to='/dashboard'><KeyboardBackspaceOutlined className='menu-bar'/><span>Back to Users</span></Link>
                     <UserAction>
                         <h3 style={{color:'#00308f'}}>User Details</h3>
-                        <div style={{display:'flex',marginLeft:'auto'}}>
-                            <UserActionButton  onClick={()=>{buttonClick('blacklist')}} color='red'>BLACKLIST USER</UserActionButton>
-                            <UserActionButton  onClick={()=>{buttonClick('activate')}} color='aqua'>ACTIVATE USER</UserActionButton>
-                        </div>
+                        <UserActionButton style={{marginLeft:'auto'}} onClick={()=>{buttonClick('blacklist')}} color='red'>BLACKLIST USER</UserActionButton>
+                        <UserActionButton  onClick={()=>{buttonClick('activate')}} color='aqua'>ACTIVATE USER</UserActionButton>
                     </UserAction>
                     <Info>
                         <Wrapper>
                             <ProfilePic src={user[0].profile.avatar} alt='avatar' />
-                            <div style={{display:'flex',flexDirection:'column',marginRight:'30px'}}>
+                            <div className='info' >
                                 <h3>{`${user[0].profile.firstName} ${user[0].profile.lastName}`}</h3>
                                 <p>{user[0].accountNumber}</p>
                             </div>
-                            <VerticalLine styled={{marginRight:'30px'}} />
-                            <div style={{display:'flex',flexDirection:'column',marginRight:'30px'}}>
-                                <p style={{fontSize:'14px',fontFamily:'Work Sans',fontStyle:'normal',fontWeight:500,color:'#545F7D'}}>User's Tier</p>
+                            <VerticalLine className='info-v' />
+                            <div className='info-u'>
+                                <p>User's Tier</p>
                                 <Rating><StarOutlined /><StarOutlineOutlined /><StarOutlineOutlined /> </Rating>
                             </div>
-                            <VerticalLine styled={{marginRight:'30px'}} />
-                            <div style={{display:'flex',flexDirection:'column'}}>
-                                <p style={{fontSize:'22px',fontFamily:'Work Sans',fontStyle:'normal',fontWeight:'bold'}} >₦{user[0].accountBalance}</p>
-                                <p style={{fontSize:'12px',fontFamily:'Work Sans',fontStyle:'normal',fontWeight:400}} >9912345678/Providus Bank</p>
+                            <VerticalLine className='info-v' />
+                            <div style={{display:'flex',flexDirection:'column',flexWrap:'wrap'}}>
+                                <p className='acc-bal-p'>₦{user[0].accountBalance}</p>
+                                <div style={{fontSize:'12px',fontFamily:'Work Sans',fontStyle:'normal',fontWeight:400,direction:'flex',flexWrap:'wrap'}} >9912345678/Providus Bank</div>
                             </div>
                         </Wrapper>
                         <Tabs>

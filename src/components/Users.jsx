@@ -25,6 +25,8 @@ const Users = (props) =>{
         setInputs(values => ({...values, [name]: value}))
     }
 
+    console.log('inputs',inputs)
+
     var result1;
 
     const onFilter=()=>{
@@ -170,7 +172,7 @@ const Users = (props) =>{
         <div style={{borderRadius:'6px',backgroundColor:'white'}} >
             {clicked? <FilterForm handleChange={handleChange} onFilter={onFilter} onReset={onReset} inputs={inputs} />: ''}
             
-                <Table borderless style={{position:'relative'}}>
+                <Table borderless style={{position:'relative',maxWidth:'100vw'}}>
                     
                     <thead>
                     

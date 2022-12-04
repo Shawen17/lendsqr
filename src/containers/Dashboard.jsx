@@ -11,24 +11,29 @@ margin:8px;
 display:flex;`
 
 const Left = styled.div`
-width:32%`
+position:relative;
+
+`
 
 const Right= styled.div`
-width:100%;
-margin-left:20px;
+width:75%;
+@media screen and (min-width:0px) and (max-width:568px){
+    width:100%;
+    margin:5px
+}
+
 `
 
 const Dashstats = styled.div`
-margin-left:5px;
+margin-left:0px;
 margin-bottom:20px;
 margin-top:20px;
 display:flex;
 align:items:center;
 justify-content:center;
 flex-wrap:wrap;
-height:200px;
-padding:20px;
-
+padding:10px;
+flex:12
 `
 
 const Stats = styled.div`
@@ -38,12 +43,12 @@ width:240px;
 border: 1px solid rgba(33, 63, 125, 0.06);
 box-shadow: 3px 5px 20px rgba(0, 0, 0, 0.04);
 border-radius:4px;
-flex:1;
+flex:3;
 justify-content:flex-start;
 align-items:left;
 display:flex;
 flex-direction:column;
-margin:7px;
+margin:5px;
 padding:12px 10px;
 `
 
@@ -51,7 +56,6 @@ const StatIcon = styled.img`
 height:25%;
 width:25%;
 border-radius:50%;
-
 `
 
 const StatDesc = styled.h5`
@@ -83,6 +87,13 @@ const Dashbaord=()=>{
     window.title='Dashboard'
     const [searchValue,setSearchValue] = useState([])
     var [raw] = useState(JSON.parse(localStorage.getItem('data')))
+    const[display,setDisplay]=useState(false)
+
+    
+
+    const onMenuClick =()=>{
+        setDisplay(!display)
+    }
 
     const HandleInputChange = (event) =>{
         setSearchValue(event.target.value)
@@ -142,13 +153,13 @@ const Dashbaord=()=>{
     
     return (
         <Container>
-            <Left>
-                <SideBar />
+            <Left className={display ? 'appear' : 'disappear'}>
+                <SideBar  />
             </Left>
             <Right>
-                <NavBar searchValue={searchValue} HandleInputChange={HandleInputChange} />
+                <NavBar searchValue={searchValue} HandleInputChange={HandleInputChange} onMenuClick={onMenuClick} />
                 <div  style={{backgroundColor:'whitesmoke',}}>
-                    <h3 style={{color:'#0050B5',marginLeft:'20px',paddingTop:'25px'}}>Users</h3>
+                    <h3 style={{color:'#0050B5',marginLeft:'10px',paddingTop:'25px'}}>Users</h3>
                     <Dashstats>
                         <Stats>
                             <StatIcon src='/static/icons/user.png' alt='user'/>
