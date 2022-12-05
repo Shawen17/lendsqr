@@ -21,17 +21,30 @@ This app was developed with React with the following dependencies;
 - Dashboard
 - Userdetails
 
-![alt text](http://C:\Users\user\Downloads\Login.png)
+### Data
+the data was fetched from [Lendsqr api](https://6270020422c706a0ae70b72c.mockapi.io/lendsqr/api/v1/users)
+Though the data has many missing fields, i had to add random values after storing the data in LocalStorage with 
 
+```
+ var updatedData = JSON.parse(localStorage.getItem('data')).map((user)=>{
+        if('status' in data){
+            return {...user }
+        }else{
+            return {...user, status:getRandomItem(statusOptions), maritalStatus:getRandomItem(maritalStatus),
+                children:getRandomItem(children), typeofResidence:getRandomItem(typeofResidence),  guarantorRelationship:getRandomItem(relationship) }
+        }
+    })
+    localStorage.setItem('data',JSON.stringify(updatedData))
+```
 
+### Behaviour
+It is a responsive app that changes the layout when the screen width is 568px and below by removing the sidebar and replacing it with a Menu icon.
+On the click of the Menu icon, the sidebar displays.
+Each row in the dashboard table represents a user and an action button that enables the admin to 'ViewDetails','Activate' or 'Blacklist' a user.
 
-## Available Scripts
+### Live Demo
+This is just a demo as there is no admin authentication need, just click on login from the [homepage](https://oluwaseun-johnson-lendsqr-fe-test.netlify.app/) and it tasks you directly to the dashboard.
+    
 
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 
