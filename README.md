@@ -49,7 +49,7 @@ This is just a demo as there is no admin authentication needed, just click on lo
 
 ### Clone
 
-- Clone this repo to your local machine using `[this repo](https://github.com/Shawen17/lendsqr-fe-test)`
+- Clone this repo to your local machine using [this repo](https://github.com/Shawen17/lendsqr-fe-test)
     
 
 
