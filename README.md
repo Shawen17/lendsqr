@@ -1,6 +1,6 @@
 # Lendsqr App
 
-This is the dashboard for an Admin for a loan app, which gives the admin the admin various functionalities, such as;
+This is the dashboard for an Admin for a loan app, which gives the admin various functionalities, such as;
 * seeing all users details
 * search bar 
 * filter with specific conditions
@@ -22,8 +22,8 @@ This app was developed with React with the following dependencies;
 - Userdetails
 
 ### Data
-the data was fetched from [Lendsqr api](https://6270020422c706a0ae70b72c.mockapi.io/lendsqr/api/v1/users)
-Though the data has many missing fields, i had to add random values after storing the data in LocalStorage with 
+the data was fetched from [Lendsqr api endpoint](https://6270020422c706a0ae70b72c.mockapi.io/lendsqr/api/v1/users),
+though the data has many missing fields, i had to add random values after storing the data in LocalStorage with 
 
 ```
  var updatedData = JSON.parse(localStorage.getItem('data')).map((user)=>{
@@ -38,12 +38,14 @@ Though the data has many missing fields, i had to add random values after storin
 ```
 
 ### Behaviour
-It is a responsive app that changes the layout when the screen width is 568px and below by removing the sidebar and replacing it with a Menu icon.
-On the click of the Menu icon, the sidebar displays.
-Each row in the dashboard table represents a user and an action button that enables the admin to 'ViewDetails','Activate' or 'Blacklist' a user.
+- It is a responsive app that changes the layout when the screen width is 568px and below by removing the sidebar and replacing it with a Menu icon.
+- On the click of the Menu icon, the sidebar displays.
+- Each row in the dashboard table represents a user and an action button that enables the admin to 'ViewDetails','Activate' or 'Blacklist' a user.
+- To use the filter condition, click on any of the Table's headers and the filter form is displayed.
+- Blacklist and Activate users by clicking corresponding buttons in Userdetails page.
 
 ### Live Demo
-This is just a demo as there is no admin authentication need, just click on login from the [homepage](https://oluwaseun-johnson-lendsqr-fe-test.netlify.app/) and it tasks you directly to the dashboard.
+This is just a demo as there is no admin authentication needed, just click on login from the [homepage](https://oluwaseun-johnson-lendsqr-fe-test.netlify.app/) and it tasks you directly to the dashboard.
     
 
 
