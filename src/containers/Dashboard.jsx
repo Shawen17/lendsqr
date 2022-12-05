@@ -13,6 +13,7 @@ display:flex;`
 const Left = styled.div`
 position:relative;
 
+
 `
 
 const Right= styled.div`

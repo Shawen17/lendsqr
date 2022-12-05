@@ -94,10 +94,10 @@ const Image = styled.img`
 export const DropDownContainer = styled.div`
     display:flex;
     flex-direction:column;
-    width:20%;
+    width:100%;
     justify-content:center;
-    align-items:right;
-    padding-left:100px;
+    align-items:center;
+    
     
     `
     
@@ -161,8 +161,9 @@ const NavBar =(props)=>{
                     <NotificationsOutlined  style={{height:40,width:40,marginRight:'6px' }}/>
                     <Image  src='/static/icons/my_selfie.jpg'  />
                 </Navlink>
+                
                 <DropDownContainer >
-                    <DropDownHeader style={{cursor:'pointer'}} onClick={handleDropDown }  >Shawen<span> <KeyboardArrowDownOutlined /> </span>  </DropDownHeader>
+                <div  className='sidebar-link nav'  onClick={handleDropDown }>Shawen<span> <KeyboardArrowDownOutlined /> </span>  </div>
                     <DropDownListContainer style={{position:'absolute',marginTop:'80px'}} >
                         <DropDownList className={toggle? 'show-dropdown' : 'hide-dropdown'}>
                             <ListItem>account</ListItem>

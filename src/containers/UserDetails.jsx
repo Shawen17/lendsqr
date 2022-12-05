@@ -20,7 +20,7 @@ const Right= styled.div`
 width:75%;
 
 @media screen and (min-width:0px) and (max-width:568px){
-    max-width:100%;
+    max-width:110%;
     margin:1px
 }
 `
@@ -63,7 +63,7 @@ border-radius:4px;
 height:200px;
 @media screen and (min-width:0px) and (max-width:568px){
     margin:5px;
-    height:220px;
+    height:240px;
 
 }
 `

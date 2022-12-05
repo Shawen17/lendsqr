@@ -101,8 +101,8 @@ const SideBar = () => {
                     lendsqr
                 </BrandName>
         </Brand>
+        <div  className='sidebar-link sw'><span><img src='/static/icons/dashboard.png' alt='dash'/></span> Switch Organization <span> <KeyboardArrowDownOutlined style={{cursor:'pointer'}} onClick={handleDropDown } /> </span>  </div>
         <DropDownContainer style={{paddingBottom:'15px',paddingLeft:'0px'}}>
-            <div  className='sidebar-title sw'><span><img src='/static/icons/dashboard.png' alt='dash'/></span> Switch Organization <span> <KeyboardArrowDownOutlined style={{cursor:'pointer'}} onClick={handleDropDown } /> </span>  </div>
             <DropDownListContainer>
                 <DropDownList className={toggle? 'show-dropdown' : 'hide-dropdown'} >
                     <ListItem>lendsqr</ListItem>
