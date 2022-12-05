@@ -21,7 +21,7 @@ This app was developed with React with the following dependencies;
 - Dashboard
 - Userdetails
 
-![alt text](http://C:/Users/user/Downloads/Login.png)
+![alt text](http://C:\Users\user\Downloads\Login.png)
 
 
 
