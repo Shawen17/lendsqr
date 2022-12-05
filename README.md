@@ -7,7 +7,7 @@ This is the dashboard for an Admin for a loan app, which gives the admin the adm
 * activate and blacklist users
 
 This app was developed with React with the following dependencies;
-## Dependencies
+### Dependencies
 - styled-components
 - material-ui
 - paginate
