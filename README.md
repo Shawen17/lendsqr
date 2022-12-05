@@ -16,7 +16,7 @@ This app was developed with React with the following dependencies;
 - classnames
 - axios
 
-##Pages
+### Pages
 - Login 
 - Dashboard
 - Userdetails
