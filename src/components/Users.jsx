@@ -25,7 +25,7 @@ const Users = (props) =>{
         setInputs(values => ({...values, [name]: value}))
     }
 
-    console.log('inputs',inputs)
+    
 
     var result1;
 
