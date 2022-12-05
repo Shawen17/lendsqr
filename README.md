@@ -6,6 +6,23 @@ This is the dashboard for an Admin for a loan app, which gives the admin the adm
 * filter with specific conditions
 * activate and blacklist users
 
+This app was developed with React with the following dependencies;
+## Dependencies
+- styled-components
+- material-ui
+- paginate
+- reactstrap
+- react-router-dom
+- classnames
+- axios
+
+##Pages
+- Login 
+- Dashboard
+- Userdetails
+
+![alt text](http://C:/Users/user/Downloads/Login.png)
+
 
 
 ## Available Scripts
