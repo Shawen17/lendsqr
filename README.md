@@ -46,6 +46,10 @@ though the data has many missing fields, i had to add random values after storin
 
 ### Live Demo
 This is just a demo as there is no admin authentication needed, just click on login from the [homepage](https://oluwaseun-johnson-lendsqr-fe-test.netlify.app/) and it tasks you directly to the dashboard.
+
+### Clone
+
+- Clone this repo to your local machine using `[this repo](https://github.com/Shawen17/lendsqr-fe-test)`
     
 
 
