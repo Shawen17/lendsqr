@@ -36,6 +36,23 @@ display:flex;
 align-items:center;
 justify-content:center;
 `
+const SearchContainer = styled.div`
+    margin-top:14px;
+    border: 3px solid #BBBBB4;
+    border-radius:6px;
+    align-items:center;
+    justify-content:flex-start;
+    display:flex;
+    height:50px;
+    width:80%;
+    font-family: 'Avenir Next';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 19px;
+    color: #545F7D;
+    opacity: 0.6
+`
 
 const Left = styled.div`
 width:50%;
@@ -55,6 +72,9 @@ margin-left:auto;
         display:none;
         width:0%;
     }
+    ${SearchContainer}{
+        height:35px;
+    }
 }
 
 `
@@ -67,23 +87,7 @@ flex-direction:column;
 margin-top:10px;
 width:100%;
 `
-const SearchContainer = styled.div`
-    margin-top:14px;
-    border: 3px solid #BBBBB4;
-    border-radius:6px;
-    align-items:center;
-    justify-content:flex-start;
-    display:flex;
-    height:50px;
-    width:80%;
-    font-family: 'Avenir Next';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 19px;
-    color: #545F7D;
-    opacity: 0.6
-`
+
 const Input = styled.input`
       type: ${props=> props.type};
       margin-left:10px;
