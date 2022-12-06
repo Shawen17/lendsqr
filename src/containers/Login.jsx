@@ -35,8 +35,11 @@ padding-top:20px;
 display:flex;
 align-items:center;
 justify-content:center;
+`
 
-
+const Left = styled.div`
+width:50%;
+display:block;
 `
 
 const Right = styled.div`
@@ -45,13 +48,18 @@ width:50%;
 align-items:center;
 justify-content:center;
 margin-left:auto;
+@media screen and (min-width:0px) and (max-width:568px){
+    width:100%;
+    margin:5px;
+    ${Left}{
+        display:none;
+        width:0%;
+    }
+}
 
 `
 
-const Left = styled.div`
-width:50%;
 
-`
 
 const Form = styled.div`
 display:flex;
