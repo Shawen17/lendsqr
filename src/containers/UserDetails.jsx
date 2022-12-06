@@ -10,7 +10,7 @@ import NavBar from '../components/NavBar';
 const Container = styled.div`
 margin:8px;
 display:flex;
-width:100vw`
+`
 
 const Left = styled.div`
 position:relative;
@@ -20,7 +20,7 @@ const Right= styled.div`
 width:75%;
 
 @media screen and (min-width:0px) and (max-width:568px){
-    max-width:110%;
+    width:100%;
     margin:1px
 }
 `

@@ -238,6 +238,11 @@ color: #545F7D;
   max-width:100vw;
 
 }
+#search-icon{
+  margin:10px 20px;
+  font-size:20px;
+  color:white
+}
 
 
 
@@ -305,6 +310,10 @@ color: #545F7D;
 }
 
 @media screen and (min-width:0px) and (max-width:568px){
+  #search-icon{
+    margin:5px 30px;
+  }
+
   #user-table {
     max-width:100%;
     

@@ -152,7 +152,7 @@ const NavBar =(props)=>{
             <SearchContainer>
                 <Input placeholder="search for anything" value={props.searchValue}  onChange={props.HandleInputChange}  /> 
                 <SearchIcon>
-                    <Search style={{ fontSize:'20px',color:'white',margin:'10px 20px'}} /> 
+                    <Search id='search-icon' /> 
                 </SearchIcon>
             </SearchContainer>
             <div style={{display:'flex',alignItems:'center',justifyContent:'flex-start'}}>
