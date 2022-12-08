@@ -34,7 +34,11 @@ align:items:center;
 justify-content:center;
 flex-wrap:wrap;
 padding:10px;
-flex:12
+flex:12;
+@media screen and (min-width:0px) and (max-width:568px){
+    flex-wrap:nowrap;
+    flex-basis:24%;
+}
 `
 
 const Stats = styled.div`
