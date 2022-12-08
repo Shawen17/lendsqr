@@ -27,7 +27,7 @@ z-index:1600;
     width:200px;
 };
 @media screen and (min-width:415px) and (max-width:568px){
-    top:520px;
+    top:480px;
     width:200px;
 }
 
