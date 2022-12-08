@@ -23,7 +23,7 @@ position:absolute;
 top:450px;
 z-index:1600;
 @media screen and (min-width:300px) and (max-width:414px){
-    top:480px;
+    top:500px;
     width:200px;
 };
 @media screen and (min-width:415px) and (max-width:568px){
