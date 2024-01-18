@@ -111,7 +111,7 @@ const FilterForm = (props) => {
       <Label>Phone Number</Label>
       <Input
         className="mb-3"
-        type="number"
+        type="text"
         name="phoneNumber"
         value={props.inputs.phoneNumber || ""}
         placeholder="Phone Number"

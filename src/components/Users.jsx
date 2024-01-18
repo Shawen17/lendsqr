@@ -11,6 +11,7 @@ const Users = (props) => {
   var data = props.currentData;
 
   const [menu, setMenu] = useState();
+  const [submenu, setSubmenu] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [clicked, setClicked] = useState(false);
   const [inputs, setInputs] = useState({});
@@ -23,75 +24,23 @@ const Users = (props) => {
     setInputs((values) => ({ ...values, [name]: value }));
   };
 
-  // var result1;
-
   const onFilter = () => {
     var filteredResult;
     filteredResult = result;
 
     if (inputs) {
+      const filteredInputs = Object.fromEntries(
+        Object.entries(inputs).filter(([key, value]) => value !== "")
+      );
+
       filteredResult = result.filter((item) =>
-        Object.keys(inputs).every((key) => item[key] === inputs[key])
+        Object.entries(filteredInputs).every(
+          ([key, value]) =>
+            value !== "" && value !== undefined && item[key] === value
+        )
       );
     }
     setResult(filteredResult);
-
-    // const available = Object.keys(inputs)
-    // const keywords= []
-    // available.forEach(key=>{
-    //     if(inputs[key]){
-    //         keywords.push(key)}})
-
-    // if(keywords.length>0){
-
-    //     if(keywords.length===1){
-    //         setResult(data)
-    //         result1=result.filter((user)=>{
-    //             return user[keywords[0]].toLowerCase().includes(inputs[keywords[0]].toLowerCase())
-    //         })
-    //         setResult(result1)
-
-    //     }else if(keywords.length===2){
-    //         result1=data.filter((user)=>{
-    //             return user[keywords[0]].toLowerCase().includes(inputs[keywords[0]].toLowerCase()) && user[keywords[1]].toLowerCase().includes(inputs[keywords[1]].toLowerCase())
-    //         })
-    //         setResult(result1)
-
-    //     }else if(keywords.length===3){
-    //         result1=data.filter((user)=>{
-    //             return (user[keywords[0]].toLowerCase().includes(inputs[keywords[0]].toLowerCase()) && user[keywords[1]].toLowerCase().includes(inputs[keywords[1]].toLowerCase())
-    //             && user[keywords[2]].toLowerCase().includes(inputs[keywords[2]].toLowerCase()) )
-    //         })
-    //         setResult(result1)
-
-    //     }else if(keywords.length===4){
-    //         result1=data.filter((user)=>{
-    //             return (user[keywords[0]].toLowerCase().includes(inputs[keywords[0]].toLowerCase()) && user[keywords[1]].toLowerCase().includes(inputs[keywords[1]].toLowerCase())
-    //             && user[keywords[2]].toLowerCase().includes(inputs[keywords[2]].toLowerCase()) && user[keywords[3]].toLowerCase().includes(inputs[keywords[3]].toLowerCase()) )
-    //         })
-    //         setResult(result1)
-
-    //     }else if(keywords.length===5){
-    //         result1=data.filter((user)=>{
-    //             return (user[keywords[0]].toLowerCase().includes(inputs[keywords[0]].toLowerCase()) && user[keywords[1]].toLowerCase().includes(inputs[keywords[1]].toLowerCase())
-    //             && user[keywords[2]].toLowerCase().includes(inputs[keywords[2]].toLowerCase()) && user[keywords[3]].toLowerCase().includes(inputs[keywords[3]].toLowerCase())
-    //             && user[keywords[4]].toLowerCase().includes(inputs[keywords[4]].toLowerCase()))
-    //         })
-    //         setResult(result1)
-
-    //     }else if(keywords.length===6){
-    //         result1=data.filter((user)=>{
-    //             return (user[keywords[0]].toLowerCase().includes(inputs[keywords[0]].toLowerCase()) && user[keywords[1]].toLowerCase().includes(inputs[keywords[1]].toLowerCase())
-    //             && user[keywords[2]].toLowerCase().includes(inputs[keywords[2]].toLowerCase()) && user[keywords[3]].toLowerCase().includes(inputs[keywords[3]].toLowerCase())
-    //             && user[keywords[4]].toLowerCase().includes(inputs[keywords[4]].toLowerCase()) && user[keywords[5]].toLowerCase().includes(inputs[keywords[5]].toLowerCase()))
-    //         })
-    //         setResult(result1)
-    //     }
-
-    // }else{
-
-    //     setResult(props.currentData)
-    // }
   };
 
   const onReset = () => {
@@ -156,13 +105,10 @@ const Users = (props) => {
   };
 
   var currentData = useMemo(() => {
-    if (!clicked) {
-      setResult(props.currentData);
-    }
     const firstPageIndex = (currentPage - 1) * PageSize;
     const lastPageIndex = firstPageIndex + PageSize;
     return result.slice(firstPageIndex, lastPageIndex);
-  }, [currentPage, result, clicked, props.currentData]);
+  }, [currentPage, result]);
 
   return (
     <div style={{ borderRadius: "6px", backgroundColor: "white" }}>
@@ -224,13 +170,14 @@ const Users = (props) => {
                   <button
                     onClick={() => {
                       displayMenu(index);
+                      setSubmenu(!submenu);
                     }}
                     style={{ border: "none", backgroundColor: "white" }}
                   >
                     <MoreVertOutlined className="menu-bar" />
                     <ul
                       className={
-                        menu === index
+                        menu === index && submenu
                           ? "show-menu-options"
                           : "hide-menu-options"
                       }
@@ -269,7 +216,7 @@ const Users = (props) => {
           key={currentPage}
           className="pagination mt-4"
           currentPage={currentPage}
-          totalCount={data.length}
+          totalCount={result.length}
           pageSize={PageSize}
           onPageChange={(page) => setCurrentPage(page)}
         />
