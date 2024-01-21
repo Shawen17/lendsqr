@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { Table } from "reactstrap";
 import { MoreVertOutlined, FilterListOutlined } from "@material-ui/icons";
 import { useNavigate } from "react-router-dom";
@@ -18,6 +18,10 @@ const Users = (props) => {
   var [result, setResult] = useState(props.currentData);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    setResult(props.currentData);
+  }, [props.currentData]);
+
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
@@ -27,7 +31,6 @@ const Users = (props) => {
   const onFilter = () => {
     var filteredResult;
     filteredResult = result;
-
     if (inputs) {
       const filteredInputs = Object.fromEntries(
         Object.entries(inputs).filter(([key, value]) => value !== "")
