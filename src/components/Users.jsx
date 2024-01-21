@@ -74,6 +74,7 @@ const Users = (props) => {
     });
     data[userIndex].status = "Blacklisted";
     localStorage.setItem("data", JSON.stringify(data));
+    setResult(JSON.parse(localStorage.getItem("data")));
   };
 
   const activateUser = (id, user) => {
@@ -84,6 +85,7 @@ const Users = (props) => {
     });
     data[userIndex].status = "Active";
     localStorage.setItem("data", JSON.stringify(data));
+    setResult(JSON.parse(localStorage.getItem("data")));
   };
 
   const displayMenu = (index) => {
