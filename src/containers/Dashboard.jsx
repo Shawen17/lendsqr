@@ -5,8 +5,14 @@ import Users from "../components/Users";
 import NavBar from "../components/NavBar";
 
 const Container = styled.div`
-  margin: 8px;
+  padding: 8px;
   display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  overflow-x: hidden;
+  @media screen and (max-width: 568px) {
+    overflow-x: auto;
+  }
 `;
 
 const Left = styled.div`
@@ -15,7 +21,7 @@ const Left = styled.div`
 
 const Right = styled.div`
   width: 75%;
-  @media screen and (min-width: 0px) and (max-width: 568px) {
+  @media screen and (max-width: 568px) {
     width: 100%;
     margin: 5px;
   }
