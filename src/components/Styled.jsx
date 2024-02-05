@@ -29,30 +29,19 @@ export const FormDisplay = styled.div`
   }
 `;
 
-export const Outline = styled.div`
-  display: flex;
-  flex-direction: column;
-  font-size: 15px;
-  align-items: flex-start;
-  justify-content: flex-start;
-  color: black;
-
-  @media screen and (max-width: 600px) {
-    font-size: 12px;
-  }
+export const Wrapper = styled.div`
+  padding: 10px;
+  box-shadow: 5px 0px 5px 5px rgba(63, 122, 239, 0.6);
+  margin-bottom: 10px;
 `;
 
 export const Button = styled.button`
-  width: 100%;
+  width: 50%;
   height: 30px;
   border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   color: white;
   background-color: #0eb3f4;
-  margin: 20px 0px 5px 0px;
-  cursor: pointer;
+  padding: 10px;
   &:hover {
     background-color: #126180;
   }

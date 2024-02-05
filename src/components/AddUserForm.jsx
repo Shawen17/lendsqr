@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
-import states from "../State";
-import { useNavigate, Link } from "react-router-dom";
+import { useState } from "react";
+
+import { useNavigate } from "react-router-dom";
 import { Form } from "reactstrap";
-import { Checkbox } from "@mui/material";
+
 import {
   Container,
   Label,
@@ -11,7 +11,6 @@ import {
   Button,
   FormDisplay,
   Title,
-  Outline,
   Select,
   Box,
   MiniContainer,
@@ -25,39 +24,6 @@ const AddUserForm = () => {
   const [submitted, setSubmitted] = useState(false);
 
   const [inputs, setInputs] = useState({});
-
-  useEffect(() => {
-    if (submitted) {
-      if (props.failed) {
-        setError("Registration Failed, kindly put valid details");
-      } else {
-        navigate("/signup/verify");
-      }
-    }
-  }, [props.failed, submitted, navigate]);
-  const checkSubmit = () => {
-    const {
-      first_name,
-      last_name,
-      state,
-      phone_number,
-      email,
-      business_name,
-      business_address,
-      service,
-    } = inputs;
-    return (
-      first_name &&
-      last_name &&
-      clicked &&
-      state &&
-      phone_number &&
-      email &&
-      business_name &&
-      business_address &&
-      service
-    );
-  };
 
   const handleChange = (event) => {
     setSubmitted(false);
@@ -270,24 +236,10 @@ const AddUserForm = () => {
               readOnly
             />
           </SearchContainer>
-          <div>
-            <Label>
-              <Checkbox id="terms" onClick={() => setClicked(!clicked)} />I
-              agree with the terms and conditions
-            </Label>
-          </div>
-          <Button type="submit" disabled={!checkSubmit()}>
-            Submit
-          </Button>
+
+          <Button type="submit">Submit</Button>
         </Form>
       </FormDisplay>
-      <Outline style={{ marginBottom: 20 }}>
-        <p style={{ display: "flex" }} className="mt-3">
-          <Link className="nav-link" to="/login">
-            Already have an account? <span>Login</span>{" "}
-          </Link>{" "}
-        </p>
-      </Outline>
     </Container>
   );
 };
