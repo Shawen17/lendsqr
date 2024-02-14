@@ -351,3 +351,18 @@ td {
     display: block;
   }
 }
+
+.page-load {
+  animation: 1s ease-out 0s 1 slideInTop;
+}
+
+@keyframes slideInTop {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

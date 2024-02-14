@@ -1,20 +1,27 @@
 import styled from "styled-components";
 
+export const Back = styled.div`
+  padding-left: 15px;
+  cursor: pointer;
+  margin-right: auto;
+  margin-bottom: 10px;
+`;
+
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 40px 15px 0px 15px;
+  margin: 40px 15px 0px 25px;
   align-items: center;
   justify-content: centre;
   color: #126180;
 
   @media screen and (max-width: 568px) {
-    margin: 40px 5px 10px 5px;
+    margin: 40px 5px 10px 20px;
   }
 `;
 
 export const FormDisplay = styled.div`
-  width: 40%;
+  width: 80%;
   text-align: center;
   margin: 10px;
   display: flex;
@@ -31,17 +38,19 @@ export const FormDisplay = styled.div`
 
 export const Wrapper = styled.div`
   padding: 10px;
-  box-shadow: 5px 0px 5px 5px rgba(63, 122, 239, 0.6);
+  box-shadow: 3px 0px 3px 3px rgba(63, 122, 239, 0.6);
   margin-bottom: 10px;
+  border-radius: 6px;
 `;
 
 export const Button = styled.button`
   width: 50%;
-  height: 30px;
+  height: 40px;
   border-radius: 6px;
   color: white;
   background-color: #0eb3f4;
-  padding: 10px;
+  margin-top: 10px;
+
   &:hover {
     background-color: #126180;
   }
@@ -105,18 +114,17 @@ export const Title = styled.div`
 
 export const MiniContainer = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
+  flex-wrap: wrap;
 
   @media screen and (max-width: 343px) {
-    flex-direction: column;
   }
 `;
 export const Box = styled.div`
   display: flex;
   flex-direction: column;
   margin-right: 10px;
-  width: 100%;
 `;
 
 export const Select = styled.select`

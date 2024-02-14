@@ -5,6 +5,7 @@ import Dashbaord from "./containers/Dashboard";
 import UserDetails from "./containers/UserDetails";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import AddUserForm from "./components/AddUserForm";
 
 function App() {
   var [data, setData] = useState([]);
@@ -69,13 +70,16 @@ function App() {
   }
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" exact element={<Login />} />
-        <Route path="/dashboard" exact element={<Dashbaord />} />
-        <Route path="/user-details" exact element={<UserDetails />} />
-      </Routes>
-    </BrowserRouter>
+    <>
+    <AddUserForm />
+    </>
+    // <BrowserRouter>
+    //   <Routes>
+    //     <Route path="/" exact element={<Login />} />
+    //     <Route path="/dashboard" exact element={<Dashbaord />} />
+    //     <Route path="/user-details" exact element={<UserDetails />} />
+    //   </Routes>
+    // </BrowserRouter>
   );
 }
 

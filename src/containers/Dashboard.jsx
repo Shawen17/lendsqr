@@ -98,8 +98,6 @@ const Dashbaord = () => {
     setDisplay(!display);
   };
 
-  console.log(filteredUsers);
-
   const HandleInputChange = (event) => {
     setSearchValue(event.target.value);
   };
