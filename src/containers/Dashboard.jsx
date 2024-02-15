@@ -1,8 +1,9 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import SideBar from "../components/SideBar";
 import Users from "../components/Users";
 import NavBar from "../components/NavBar";
+import axios from "axios";
 
 const Container = styled.div`
   padding: 8px;
@@ -87,68 +88,105 @@ const StatNum = styled.h5`
   opacity: 1;
 `;
 
+let PageSize = 20;
+
 const Dashbaord = () => {
   window.title = "Dashboard";
   const [searchValue, setSearchValue] = useState([]);
-  var [raw] = useState(JSON.parse(localStorage.getItem("data")));
+  const [page, setPage] = useState(1);
+  const [filterInProgress, setFilterInProgress] = useState(false);
+
+  const [raw, setRaw] = useState({
+    items: {
+      users_paginated: [],
+      all_users: 0,
+      active: 0,
+      loan: 0,
+      savings: 0,
+    },
+  });
+
   const [display, setDisplay] = useState(false);
-  const [filteredUsers, setFilteredUsers] = useState(raw);
+  const [filteredUsers, setFilteredUsers] = useState(raw.items.users_paginated);
 
   const onMenuClick = () => {
     setDisplay(!display);
+  };
+
+  const nextPage = () => {
+    if (page < Math.ceil(filteredUsers.length / PageSize)) {
+      setPage(page + 1);
+    }
+  };
+  const prevPage = () => {
+    if (page > 1) {
+      setPage(page - 1);
+    }
   };
 
   const HandleInputChange = (event) => {
     setSearchValue(event.target.value);
   };
 
-  const data = useMemo(() => {
-    return raw;
-  }, [raw]);
+  useEffect(() => {
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Accept: "application/json",
+      },
+    };
+
+    try {
+      axios
+        .get(
+          `${process.env.REACT_APP_LENDSQR_API_URL}/api/users/?page=${page}`,
+
+          config
+        )
+        .then((res) => setRaw({ items: res.data }))
+        .catch((error) => console.log(error));
+    } catch (error) {
+      console.log(error);
+    }
+  }, [page]);
 
   useEffect(() => {
-    if (searchValue.length > 2) {
-      const searchedUsers = raw.filter((item) =>
-        Object.values(item).some(
-          (value) =>
-            typeof value === "string" &&
-            value.toLowerCase().includes(searchValue)
-        )
-      );
-      setFilteredUsers(searchedUsers);
+    if (searchValue.length > 4) {
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Accept: "application/json",
+        },
+      };
+      setFilterInProgress(true);
+      try {
+        axios
+          .get(
+            `${process.env.REACT_APP_LENDSQR_API_URL}/api/filter-users/`,
+            {
+              params: { search: searchValue },
+            },
+            config
+          )
+          .then((res) => setFilteredUsers(res.data))
+          .catch((error) => console.log(error));
+      } catch (error) {
+        console.log(error);
+      }
+      setPage(1);
     } else {
-      setFilteredUsers(raw);
+      setFilterInProgress(false);
+      setFilteredUsers(raw.items.users_paginated);
     }
-  }, [searchValue, raw]);
-
-  var active = data.filter(function (user) {
-    return user.status === "Active";
-  });
-
-  var savings = data.filter(function (user) {
-    return +user.accountBalance > 0;
-  });
-
-  var loan = data.filter(function (user) {
-    return +user.education.loanRepayment > 0;
-  });
-
-  var [count, setCount] = useState(active.length);
+  }, [searchValue, raw.items.users_paginated]);
 
   const increment = (user) => {
-    if (
-      user === "Inactive" ||
-      user === "Blacklisted" ||
-      user === "Pending" ||
-      user === ""
-    ) {
-      setCount(count + 1);
+    if (user !== "Active") {
     }
   };
 
   const decrement = (user) => {
     if (user === "Active") {
-      setCount(count - 1);
     }
   };
 
@@ -173,17 +211,17 @@ const Dashbaord = () => {
             <Stats>
               <StatIcon src="/static/icons/user.png" alt="user" />
               <StatDesc>users</StatDesc>
-              <StatNum>{data.length.toLocaleString("en-US")}</StatNum>
+              <StatNum>{raw.items.all_users}</StatNum>
             </Stats>
             <Stats>
               <StatIcon src="/static/icons/user_active.png" alt="active icon" />
               <StatDesc>ACTIVE USERS</StatDesc>
-              <StatNum>{count.toLocaleString("en-US")}</StatNum>
+              <StatNum>{raw.items.active}</StatNum>
             </Stats>
             <Stats>
               <StatIcon src="/static/icons/user_loan.png" alt="loan icon" />
               <StatDesc>USERS WITH LOANS</StatDesc>
-              <StatNum>{loan.length.toLocaleString("en-US")}</StatNum>
+              <StatNum>{raw.items.loan}</StatNum>
             </Stats>
             <Stats>
               <StatIcon
@@ -191,10 +229,16 @@ const Dashbaord = () => {
                 alt="savings icon"
               />
               <StatDesc>USERS WITH SAVINGS</StatDesc>
-              <StatNum>{savings.length.toLocaleString("en-US")}</StatNum>
+              <StatNum>{raw.items.savings}</StatNum>
             </Stats>
           </Dashstats>
           <Users
+            page={page}
+            filterInProgress={filterInProgress}
+            PageSize={PageSize}
+            totalCount={raw.items.all_users}
+            prevPage={prevPage}
+            nextPage={nextPage}
             currentData={filteredUsers}
             increment={increment}
             decrement={decrement}

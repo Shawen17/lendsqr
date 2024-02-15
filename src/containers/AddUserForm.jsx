@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { Form } from "reactstrap";
 import axios from "axios";
 
@@ -16,8 +16,7 @@ import {
   Select,
   Box,
   MiniContainer,
-} from "./Styled";
-import { LabelImportant } from "@material-ui/icons";
+} from "../components/Styled";
 
 const AddUserForm = () => {
   document.title = "partner signup";
@@ -56,6 +55,7 @@ const AddUserForm = () => {
     "currency",
     "email",
     "userName",
+    "status",
   ];
   const guarantorKeys = [
     "guaAddress",
@@ -87,8 +87,6 @@ const AddUserForm = () => {
 
     return result;
   };
-
-  console.log(inputs);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -124,7 +122,7 @@ const AddUserForm = () => {
 
     try {
       await axios.post(
-        `${process.env.REACT_APP_LENDSQR_API_URL}/api/users`,
+        `${process.env.REACT_APP_LENDSQR_API_URL}/api/users/`,
         data,
         config
       );
@@ -239,7 +237,9 @@ const AddUserForm = () => {
                     onChange={handleChange}
                   >
                     <option value="others"></option>
-                    <option value="male">Male</option>
+                    <option style={{ fontSize: 14 }} value="male">
+                      Male
+                    </option>
                     <option value="female">Female</option>
                   </Select>
                 </SearchContainer>
@@ -275,6 +275,23 @@ const AddUserForm = () => {
                   </Select>
                 </SearchContainer>
               </Box>
+              <Box>
+                <Label htmlFor="status">Activity Status</Label>
+                <SearchContainer>
+                  <Select
+                    name="status"
+                    value={inputs.status || ""}
+                    onChange={handleChange}
+                  >
+                    <option value="others"></option>
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Blacklisted">Blacklisted</option>
+                  </Select>
+                </SearchContainer>
+              </Box>
+              <Box></Box>
             </MiniContainer>
           </Wrapper>
           <Label style={{ fontWeight: "bold" }}>Account</Label>
@@ -299,7 +316,7 @@ const AddUserForm = () => {
                     placeholder="Account Balance"
                     type="text"
                     name="accountBalance"
-                    value={inputs.accountBalance || ""}
+                    value={parseFloat(inputs.accountBalance) || ""}
                     onChange={handleChange}
                   />
                 </SearchContainer>
@@ -323,7 +340,7 @@ const AddUserForm = () => {
                     placeholder="Loan Repayment"
                     type="text"
                     name="loanRepayment"
-                    value={inputs.loanRepayment || ""}
+                    value={parseFloat(inputs.loanRepayment) || ""}
                     onChange={handleChange}
                   />
                 </SearchContainer>
@@ -335,7 +352,7 @@ const AddUserForm = () => {
                     placeholder="Minimum Income"
                     type="text"
                     name="minimumIncome"
-                    value={inputs.minimumIncome || ""}
+                    value={parseFloat(inputs.minimumIncome) || ""}
                     onChange={handleChange}
                   />
                 </SearchContainer>
@@ -347,7 +364,7 @@ const AddUserForm = () => {
                     placeholder="Maximum Income"
                     type="text"
                     name="maximumIncome"
-                    value={inputs.maximumIncome || ""}
+                    value={parseFloat(inputs.maximumIncome) || ""}
                     onChange={handleChange}
                   />
                 </SearchContainer>

@@ -29,9 +29,9 @@ export const FormDisplay = styled.div`
   justify-content: center;
   padding: 20px;
 
-  @media screen and (max-width: 1100px) {
+  @media screen and (max-width: 568px) {
     padding: 10px;
-    width: 80%;
+    width: 100%;
     margin: 0px;
   }
 `;
@@ -81,10 +81,14 @@ export const Input = styled.input`
   border-radius: 6px;
   background-color: transparent;
   border-style: none;
+  font-size: 16px;
+  font-family: "Urbanist", sans-serif;
+  font-weight: bold;
 
   ::placeholder {
     font-size: 10px;
     font-style: italic;
+    font-weight: bold;
   }
   &:focus {
     outline: none;
@@ -138,4 +142,26 @@ export const Select = styled.select`
     border: none;
     background-color: transparent;
   }
+`;
+
+export const PageButton = styled.button`
+  border-radius: 50% 50%;
+  margin: 10px;
+  color: grey;
+  background-color: transparent;
+  border: 0.5px solid grey;
+
+  &:hover {
+    background-color: grey;
+    color: whitesmoke;
+  }
+`;
+
+export const Pagination = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 50%;
+  margin-top: 5px;
+  padding: 15px;
 `;

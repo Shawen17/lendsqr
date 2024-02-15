@@ -158,7 +158,7 @@ const SideBar = () => {
         Settlements
       </Link>
 
-      <Link className="nav-link mb-4 sidebar-link" to="/">
+      <Link className="nav-link mb-4 sidebar-link" to="/add-profile">
         <span>
           <img src="/static/icons/reports.png" alt="logo" />
         </span>
@@ -228,11 +228,15 @@ const SideBar = () => {
           </DropDownList>
         </DropDownListContainer>
       </DropDownContainer>
-      <div className="sidebar-link" style={{ marginBottom: "30px" }}>
-        <span>
-          <img src="/static/icons/dash.png" alt="dash" />
-        </span>
-        Dashboard
+      <div
+        className="sidebar-link"
+        style={{ marginBottom: "30px", display: "flex" }}
+      >
+        <img src="/static/icons/dash.png" alt="dash" />
+
+        <Link className="nav-link sidebar-link" to="/add-profile">
+          Add Profile
+        </Link>
       </div>
       <div className="sidebar-title mb-3">CUSTOMERS</div>
       {CustomerMenu()}

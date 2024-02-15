@@ -1,21 +1,22 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { Table } from "reactstrap";
 import { MoreVertOutlined, FilterListOutlined } from "@material-ui/icons";
 import { useNavigate } from "react-router-dom";
 import FilterForm from "./FilterForm";
+import { PageButton, Pagination as Paginate } from "./Styled";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import Pagination from "./Pagination";
-
-let PageSize = 10;
 
 const Users = (props) => {
   var data = props.currentData;
-
+  const PageSize = props.PageSize;
   const [menu, setMenu] = useState();
   const [submenu, setSubmenu] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
   const [clicked, setClicked] = useState(false);
   const [inputs, setInputs] = useState({});
-  var [result, setResult] = useState(props.currentData);
+  const [result, setResult] = useState(props.currentData);
+  const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,7 +30,7 @@ const Users = (props) => {
   };
 
   const onFilter = () => {
-    var filteredResult;
+    let filteredResult;
     filteredResult = result;
     if (inputs) {
       const filteredInputs = Object.fromEntries(
@@ -98,22 +99,22 @@ const Users = (props) => {
     } else if (status === "Inactive") {
       return <span id="inactive-status">Inactive</span>;
     } else if (status === "Pending") {
-      <span id="pending-status">Pending</span>;
-    } else {
+      return <span id="pending-status">Pending</span>;
+    } else if (status === "Blacklisted") {
       return <span id="blacklisted-status">Blacklisted</span>;
     }
-  };
-
-  const formatDate = (str) => {
-    let date = new Date(str);
-    return date.toDateString();
   };
 
   var currentData = useMemo(() => {
     const firstPageIndex = (currentPage - 1) * PageSize;
     const lastPageIndex = firstPageIndex + PageSize;
     return result.slice(firstPageIndex, lastPageIndex);
-  }, [currentPage, result]);
+  }, [currentPage, PageSize, result]);
+
+  const formatDate = (str) => {
+    let date = new Date(str);
+    return date.toDateString();
+  };
 
   return (
     <div style={{ borderRadius: "6px", backgroundColor: "white" }}>
@@ -165,12 +166,12 @@ const Users = (props) => {
                   justifyContent: "center",
                 }}
               >
-                <td>{user.orgName}</td>
-                <td>{user.userName}</td>
-                <td>{user.email}</td>
-                <td>{user.phoneNumber}</td>
+                <td>{user.organization.orgName}</td>
+                <td>{user.profile.userName}</td>
+                <td>{user.profile.email}</td>
+                <td>{user.profile.phoneNumber}</td>
                 <td>{formatDate(user.createdAt)}</td>
-                <td>{customStatus(user.status)}</td>
+                <td>{customStatus(user.profile.status)}</td>
                 <td>
                   <button
                     onClick={() => {
@@ -216,16 +217,27 @@ const Users = (props) => {
           })}
         </tbody>
       </Table>
-      <div style={{ marginLeft: "500px" }}>
+      {props.filterInProgress ? (
         <Pagination
-          key={currentPage}
-          className="pagination mt-4"
+          className="pagination mt-5"
           currentPage={currentPage}
           totalCount={result.length}
           pageSize={PageSize}
           onPageChange={(page) => setCurrentPage(page)}
         />
-      </div>
+      ) : (
+        <Paginate>
+          <PageButton onClick={() => props.prevPage()}>
+            <ArrowBackIosIcon />
+          </PageButton>
+          <PageButton onClick={() => props.nextPage()}>
+            <ArrowForwardIosIcon />
+          </PageButton>
+          <div>
+            {props.page} of {Math.ceil(props.totalCount / PageSize)}...
+          </div>
+        </Paginate>
+      )}
     </div>
   );
 };
