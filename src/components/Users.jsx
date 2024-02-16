@@ -7,9 +7,11 @@ import { PageButton, Pagination as Paginate } from "./Styled";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import Pagination from "./Pagination";
+import { StatusUpdate } from "./utility/AdminAction";
+import axios from "axios";
+import { mergeFields } from "./utility/AdminAction";
 
 const Users = (props) => {
-  var data = props.currentData;
   const PageSize = props.PageSize;
   const [menu, setMenu] = useState();
   const [submenu, setSubmenu] = useState(false);
@@ -17,11 +19,46 @@ const Users = (props) => {
   const [inputs, setInputs] = useState({});
   const [result, setResult] = useState(props.currentData);
   const [currentPage, setCurrentPage] = useState(1);
+  const [filtered, setFiltered] = useState(0);
+
   const navigate = useNavigate();
 
   useEffect(() => {
     setResult(props.currentData);
   }, [props.currentData]);
+
+  useEffect(() => {
+    if (clicked && filtered) {
+      const profileKeys = ["userName", "status", "email", "phoneNumber"];
+      const organizationKeys = ["orgName"];
+      const profile = mergeFields(inputs, profileKeys);
+      const organization = mergeFields(inputs, organizationKeys);
+
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Accept: "application/json",
+        },
+      };
+      axios
+        .get(
+          `${process.env.REACT_APP_LENDSQR_API_URL}/api/advance-filter/`,
+          {
+            params: {
+              profile: JSON.stringify({ profile }),
+              organization: JSON.stringify({ organization }),
+            },
+          },
+          config
+        )
+        .then((response) => {
+          setResult(response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, [filtered, inputs, clicked]);
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -30,25 +67,12 @@ const Users = (props) => {
   };
 
   const onFilter = () => {
-    let filteredResult;
-    filteredResult = result;
-    if (inputs) {
-      const filteredInputs = Object.fromEntries(
-        Object.entries(inputs).filter(([key, value]) => value !== "")
-      );
-
-      filteredResult = result.filter((item) =>
-        Object.entries(filteredInputs).every(
-          ([key, value]) =>
-            value !== "" && value !== undefined && item[key] === value
-        )
-      );
-    }
-    setResult(filteredResult);
+    setFiltered(filtered + 1);
   };
 
   const onReset = () => {
     setInputs({});
+    setFiltered(0);
     setResult(props.currentData);
   };
 
@@ -59,34 +83,19 @@ const Users = (props) => {
     }
   };
 
-  const displayDetails = (id) => {
-    const Data = [...result];
-    const user = Data.splice(id, 1);
-    localStorage.setItem("user", JSON.stringify(user));
+  const displayDetails = (person, path) => {
     setMenu();
-    navigate("/user-details");
+    navigate(path, { state: person });
   };
 
-  const blacklistUser = (id, user) => {
-    props.decrement(user.status);
-    data[id].status = "Blacklisted";
-    const userIndex = data.findIndex((obj) => {
-      return obj.id === user.id;
-    });
-    data[userIndex].status = "Blacklisted";
-    localStorage.setItem("data", JSON.stringify(data));
-    setResult(JSON.parse(localStorage.getItem("data")));
+  const blacklistUser = (id) => {
+    StatusUpdate(axios, "blacklist", id);
+    props.updateStatus();
   };
 
-  const activateUser = (id, user) => {
-    props.increment(user.status);
-    data[id].status = "Active";
-    const userIndex = data.findIndex((obj) => {
-      return obj.id === user.id;
-    });
-    data[userIndex].status = "Active";
-    localStorage.setItem("data", JSON.stringify(data));
-    setResult(JSON.parse(localStorage.getItem("data")));
+  const activateUser = (id) => {
+    StatusUpdate(axios, "activate", id);
+    props.updateStatus();
   };
 
   const displayMenu = (index) => {
@@ -166,7 +175,13 @@ const Users = (props) => {
                   justifyContent: "center",
                 }}
               >
-                <td>{user.organization.orgName}</td>
+                <td
+                  className="nav-link sidebar-link"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => displayDetails(user, "/update-profile")}
+                >
+                  {user.organization.orgName}
+                </td>
                 <td>{user.profile.userName}</td>
                 <td>{user.profile.email}</td>
                 <td>{user.profile.phoneNumber}</td>
@@ -190,21 +205,21 @@ const Users = (props) => {
                     >
                       <li
                         onClick={() => {
-                          displayDetails(index);
+                          displayDetails(user, "/user-details");
                         }}
                       >
                         View Details
                       </li>
                       <li
                         onClick={() => {
-                          blacklistUser(index, user);
+                          blacklistUser(user._id);
                         }}
                       >
                         Blacklist
                       </li>
                       <li
                         onClick={() => {
-                          activateUser(index, user);
+                          activateUser(user._id);
                         }}
                       >
                         Activate
@@ -217,7 +232,7 @@ const Users = (props) => {
           })}
         </tbody>
       </Table>
-      {props.filterInProgress ? (
+      {props.filterInProgress || clicked ? (
         <Pagination
           className="pagination mt-5"
           currentPage={currentPage}

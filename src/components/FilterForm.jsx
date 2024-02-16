@@ -4,7 +4,7 @@ import { Input, Label } from "reactstrap";
 
 const Wrapper = styled.div`
   width: 270px;
-  height: 600px;
+  height: 550px;
   color: #545f7d;
   background: #ffffff;
   border: 1px solid rgba(84, 95, 125, 0.14);
@@ -64,23 +64,13 @@ const FilterForm = (props) => {
       <Label>Organization</Label>
       <Input
         className="mb-3"
-        type="select"
+        placeholder="organization Name"
+        type="text"
         name="orgName"
         value={props.inputs.orgName || ""}
         onChange={props.handleChange}
-      >
-        <option value="">select</option>
-        {[
-          { id: 1, name: "natus-harum-unde" },
-          { id: 2, name: "aliquam-velit-ab" },
-          { id: 3, name: "quas-et-ut" },
-          { id: 4, name: "labore-dolor-et" },
-        ].map((organization) => (
-          <option key={organization.id} value={organization.name}>
-            {organization.name}
-          </option>
-        ))}
-      </Input>
+      />
+
       <Label>Username</Label>
       <Input
         className="mb-3"
@@ -99,15 +89,7 @@ const FilterForm = (props) => {
         placeholder="Email"
         onChange={props.handleChange}
       />
-      <Label>Date</Label>
-      <Input
-        className="mb-3"
-        type="date"
-        name="createdAt"
-        value={props.inputs.createdAt || ""}
-        placeholder="Date"
-        onChange={props.handleChange}
-      />
+
       <Label>Phone Number</Label>
       <Input
         className="mb-3"
@@ -130,6 +112,7 @@ const FilterForm = (props) => {
           { id: 1, name: "Active" },
           { id: 2, name: "Inactive" },
           { id: 3, name: "Blacklisted" },
+          { id: 4, name: "Pending" },
         ].map((status) => (
           <option key={status.id} value={status.name}>
             {status.name}

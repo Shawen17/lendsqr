@@ -81,7 +81,7 @@ export const Input = styled.input`
   border-radius: 6px;
   background-color: transparent;
   border-style: none;
-  font-size: 16px;
+  font-size: 14px;
   font-family: "Urbanist", sans-serif;
   font-weight: bold;
 
@@ -134,6 +134,7 @@ export const Box = styled.div`
 export const Select = styled.select`
   width: 100%;
   border: none;
+  font-size: 14px;
   background-color: transparent;
   border-style: none;
   &:focus {
@@ -145,15 +146,15 @@ export const Select = styled.select`
 `;
 
 export const PageButton = styled.button`
-  border-radius: 50% 50%;
   margin: 10px;
   color: grey;
   background-color: transparent;
-  border: 0.5px solid grey;
+  border: none;
 
   &:hover {
     background-color: grey;
     color: whitesmoke;
+    border-radius: 6px;
   }
 `;
 

@@ -95,7 +95,7 @@ const Dashbaord = () => {
   const [searchValue, setSearchValue] = useState([]);
   const [page, setPage] = useState(1);
   const [filterInProgress, setFilterInProgress] = useState(false);
-
+  const [statusUpated, setStatusUpdated] = useState(false);
   const [raw, setRaw] = useState({
     items: {
       users_paginated: [],
@@ -111,6 +111,10 @@ const Dashbaord = () => {
 
   const onMenuClick = () => {
     setDisplay(!display);
+  };
+
+  const updateStatus = () => {
+    setStatusUpdated(!statusUpated);
   };
 
   const nextPage = () => {
@@ -148,7 +152,7 @@ const Dashbaord = () => {
     } catch (error) {
       console.log(error);
     }
-  }, [page]);
+  }, [page, statusUpated]);
 
   useEffect(() => {
     if (searchValue.length > 4) {
@@ -179,16 +183,6 @@ const Dashbaord = () => {
       setFilteredUsers(raw.items.users_paginated);
     }
   }, [searchValue, raw.items.users_paginated]);
-
-  const increment = (user) => {
-    if (user !== "Active") {
-    }
-  };
-
-  const decrement = (user) => {
-    if (user === "Active") {
-    }
-  };
 
   return (
     <Container>
@@ -240,8 +234,7 @@ const Dashbaord = () => {
             prevPage={prevPage}
             nextPage={nextPage}
             currentData={filteredUsers}
-            increment={increment}
-            decrement={decrement}
+            updateStatus={updateStatus}
           />
         </div>
       </Right>

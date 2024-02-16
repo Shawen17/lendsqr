@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import styled from "styled-components";
 import {
   KeyboardBackspaceOutlined,
   StarOutlined,
@@ -8,413 +7,53 @@ import {
 import { Link } from "react-router-dom";
 import SideBar from "../components/SideBar";
 import NavBar from "../components/NavBar";
-
-const Container = styled.div`
-  padding: 8px;
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  overflow-x: hidden;
-`;
-
-const Left = styled.div`
-  position: relative;
-`;
-
-const Right = styled.div`
-  width: 75%;
-
-  @media screen and (max-width: 568px) {
-    width: 100%;
-    margin: 1px;
-  }
-`;
-
-const UserAction = styled.div`
-  display: flex;
-  justify-content: space-even;
-  align-items: center;
-  margin-left: 80px;
-  @media screen and (max-width: 568px) {
-    margin: 5px;
-  }
-`;
-
-const UserActionButton = styled.button`
-height:40px;
-width:200px;
-border-radius:6px;
-margin-left:auto
-font-size:15px;
-font-weight:bold;
-margin-right:10px;
-border:1px solid ${(props) => props.color};
-color: ${(props) => props.color};
-@media screen and (max-width:568px){
-    height:40px;
-    width:130px;
-    font-size:12px;
-    margin:auto;
-    color: ${(props) => props.color};
-    border:1px solid ${(props) => props.color};
-    
-}`;
-
-const Info = styled.div`
-  margin-left: 80px;
-  background-color: white;
-  margin-top: 30px;
-  border-radius: 4px;
-
-  @media screen and (max-width: 568px) {
-    margin: 5px;
-    height: 240px;
-  }
-`;
-
-const Wrapper = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  color: #213f7d;
-  position: relative;
-  margin-bottom: 50px;
-  padding-top: 40px;
-`;
-
-const VerticalLine = styled.div`
-  border-left: 1px solid #ccc;
-  height: 100px;
-  margin-right: 10px;
-  @media screen and (max-width: 568px) {
-    margin-right: 1px;
-  }
-`;
-
-const Rating = styled.div`
-  display: flex;
-  color: yellow;
-`;
-
-const ProfilePic = styled.img`
-  border-radius: 50%;
-  height: 100px;
-  width: 100px;
-  margin-left: 20px;
-  margin-right: 20px;
-  color: #213f7d;
-  @media screen and (max-width: 568px) {
-    height: 60px;
-    width: 60px;
-    border-radius: 50%;
-    margin: 5px;
-  }
-`;
-
-const HorizontalLine = styled.div`
-  border-bottom: 1px solid #ccc;
-  width: 100%;
-  margin: 10px 10px;
-`;
-
-const Details = styled.div`
-  margin-left: 80px;
-  background-color: white;
-  margin-top: 50px;
-  display: flex;
-  flex-direction: column;
-  align-items: left;
-  border-radius: 4px;
-  color: #213f7d;
-  position: relative;
-  @media screen and (max-width: 568px) {
-    margin: 5px;
-    ${HorizontalLine} {
-      width: 100%;
-    }
-  }
-`;
-
-const PersonalInfo = styled.div`
-  display: flex;
-  flex-direction: column;
-  color: #545f7d;
-  margin-right: 50px;
-`;
-
-const Header = styled.p`
-  font-family: "Work Sans";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 14px;
-  text-transform: uppercase;
-`;
-
-const HeaderValue = styled.p`
-  font-family: "Work Sans";
-  font-style: normal;
-  font-weight: bold;
-  font-size: 16px;
-  line-height: 19px;
-`;
-
-const InfoWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 15px;
-  margin: 20px 20px;
-  width: 100%;
-  @media screen and (max-width: 568px) {
-    flex-wrap: wrap;
-    margin: 10px 10px;
-    ${PersonalInfo} {
-      margin: 4px;
-    }
-    ${Header} {
-      font-size: 9px;
-      line-height: 11px;
-      font-weight: bold;
-    }
-    ${HeaderValue} {
-      font-size: 12px;
-      line-height: 14px;
-    }
-  }
-`;
-
-const Tabs = styled.div`
-  display: flex;
-  font-family: "Work Sans";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 19px;
-  justify-content: center;
-  align-items: center;
-  @media screen and (max-width: 568px) {
-    margin-buttom: 10px;
-    font-size: 12px;
-    line-height: 16px;
-    margin: 0px;
-  }
-`;
-
-const TabDesc = styled.div`
-  text-align: center;
-  height: 22px;
-  width: 170px;
-  background-color: white;
-  cursor: pointer;
-
-  &:hover {
-    color: #39cdcc;
-    border-bottom: 2px solid #39cdcc;
-  }
-`;
+import { useLocation } from "react-router-dom";
+import { StatusUpdate } from "../components/utility/AdminAction";
+import axios from "axios";
+import displayGeneral from "../components/menu/GeneralDetails";
+import AccountDetails from "../components/menu/AccountDetails";
+import Documents from "../components/menu/Documents";
+import SystemApp from "../components/menu/SystemApp";
+import Loan from "../components/menu/Loan";
+import Savings from "../components/menu/Savings";
+import {
+  UserActionButton,
+  UserAction,
+  Right,
+  Left,
+  Container,
+  Info,
+  Wrapper,
+  VerticalLine,
+  Rating,
+  ProfilePic,
+  Tabs,
+  TabDesc,
+} from "../components/menu/StyledMenu";
 
 const UserDetails = () => {
   window.title = "User-details";
+  const location = useLocation();
+  const user = location.state;
+  const data = [
+    { id: 1, title: "General Details", comp: displayGeneral(user) },
+    { id: 2, title: "Documents", comp: Documents() },
+    { id: 3, title: "Bank Details", comp: AccountDetails(user) },
+    { id: 4, title: "Loans", comp: Loan() },
+    { id: 5, title: "Savings", comp: Savings() },
+    { id: 6, title: "App and System", comp: SystemApp() },
+  ];
+
   const [display, setDisplay] = useState(false);
-  const [general, setGeneral] = useState(true);
-  var user = JSON.parse(localStorage.getItem("user"));
-  var data = JSON.parse(localStorage.getItem("data"));
+  const [sliderdata, setSliderdata] = useState(data[0].comp);
 
   const onMenuClick = () => {
     setDisplay(!display);
   };
 
-  const onClickGeneral = () => {
-    return setGeneral(true);
-  };
-
-  const onTabChange = () => {
-    return setGeneral(false);
-  };
-
-  const buttonClick = (str) => {
-    if (str === "blacklist") {
-      user.status = "Blacklisted";
-      const userIndex = data.findIndex((obj) => {
-        return obj.id === user[0].id;
-      });
-      data[userIndex].status = "Blacklisted";
-      localStorage.setItem("data", JSON.stringify(data));
-      alert(`user ${user[0].email} has been Blacklisted `);
-    } else if (str === "activate") {
-      user.status = "Active";
-      const userIndex = data.findIndex((obj) => {
-        return obj.id === user[0].id;
-      });
-      data[userIndex].status = "Active";
-      localStorage.setItem("data", JSON.stringify(data));
-      alert(`user ${user[0].email} has been Activated `);
-    }
-  };
-
-  const displayGeneral = () => (
-    <Details>
-      <p
-        style={{
-          fontSize: "16px",
-          fontStyle: "normal",
-          fontWeight: "bold",
-          lineHeight: "19px",
-          margin: "20px 20px",
-        }}
-      >
-        Personal Information
-      </p>
-
-      <InfoWrapper>
-        <PersonalInfo>
-          <Header>full Name</Header>
-          <HeaderValue>{`${user[0].profile.firstName} ${user[0].profile.lastName}`}</HeaderValue>
-        </PersonalInfo>
-        <PersonalInfo>
-          <Header>Phone Number</Header>
-          <HeaderValue>{user[0].profile.phoneNumber}</HeaderValue>
-        </PersonalInfo>
-        <PersonalInfo>
-          <Header>Email Address</Header>
-          <HeaderValue>{user[0].email}</HeaderValue>
-        </PersonalInfo>
-        <PersonalInfo>
-          <Header>Bvn</Header>
-          <HeaderValue> {user[0].profile.bvn}</HeaderValue>
-        </PersonalInfo>
-        <PersonalInfo>
-          <Header>Gender</Header>
-          <HeaderValue>{user[0].profile.gender}</HeaderValue>
-        </PersonalInfo>
-      </InfoWrapper>
-
-      <InfoWrapper>
-        <PersonalInfo>
-          <Header>Marital status</Header>
-          <HeaderValue>{user[0].maritalStatus}</HeaderValue>
-        </PersonalInfo>
-        <PersonalInfo>
-          <Header>Children</Header>
-          <HeaderValue>{user[0].children}</HeaderValue>
-        </PersonalInfo>
-        <PersonalInfo>
-          <Header>Type of residence</Header>
-          <HeaderValue>{user[0].typeofResidence}</HeaderValue>
-        </PersonalInfo>
-      </InfoWrapper>
-      <HorizontalLine />
-      <p
-        style={{
-          fontSize: "16px",
-          fontStyle: "normal",
-          fontWeight: "bold",
-          lineHeight: "19px",
-          margin: "20px 20px",
-        }}
-      >
-        Education and Employment
-      </p>
-      <InfoWrapper>
-        <PersonalInfo>
-          <Header>level of education</Header>
-          <HeaderValue>{user[0].education.level}</HeaderValue>
-        </PersonalInfo>
-        <PersonalInfo>
-          <Header>employment status</Header>
-          <HeaderValue>{user[0].education.employmentStatus}</HeaderValue>
-        </PersonalInfo>
-        <PersonalInfo>
-          <Header>sector of employment</Header>
-          <HeaderValue>{user[0].education.sector}</HeaderValue>
-        </PersonalInfo>
-        <PersonalInfo>
-          <Header>Duration of employment</Header>
-          <HeaderValue>{user[0].education.duration}</HeaderValue>
-        </PersonalInfo>
-      </InfoWrapper>
-      <InfoWrapper>
-        <PersonalInfo>
-          <Header>office email</Header>
-          <HeaderValue>{user[0].education.officeEmail}</HeaderValue>
-        </PersonalInfo>
-        <PersonalInfo>
-          <Header>Monthly income</Header>
-          <HeaderValue>{`₦${user[0].education.monthlyIncome[0]}-₦${user[0].education.monthlyIncome[1]}`}</HeaderValue>
-        </PersonalInfo>
-        <PersonalInfo>
-          <Header>loan repayment</Header>
-          <HeaderValue>{user[0].education.loanRepayment}</HeaderValue>
-        </PersonalInfo>
-      </InfoWrapper>
-      <HorizontalLine />
-      <p
-        style={{
-          fontSize: "16px",
-          fontStyle: "normal",
-          fontWeight: "bold",
-          lineHeight: "19px",
-          margin: "20px 20px",
-        }}
-      >
-        Socials
-      </p>
-      <InfoWrapper>
-        <PersonalInfo>
-          <Header>Twitter</Header>
-          <HeaderValue>{user[0].socials.twitter} </HeaderValue>
-        </PersonalInfo>
-        <PersonalInfo>
-          <Header>Facebook</Header>
-          <HeaderValue>{user[0].socials.facebook}</HeaderValue>
-        </PersonalInfo>
-        <PersonalInfo>
-          <Header>Instagram</Header>
-          <HeaderValue>{user[0].socials.instagram}</HeaderValue>
-        </PersonalInfo>
-      </InfoWrapper>
-      <HorizontalLine />
-      <p
-        style={{
-          fontSize: "16px",
-          fontStyle: "normal",
-          fontWeight: "bold",
-          lineHeight: "19px",
-          margin: "20px 20px",
-        }}
-      >
-        Guarantor
-      </p>
-      <InfoWrapper>
-        <PersonalInfo>
-          <Header>full Name</Header>
-          <HeaderValue>{`${user[0].guarantor.firstName} ${user[0].guarantor.lastName}`}</HeaderValue>
-        </PersonalInfo>
-        <PersonalInfo>
-          <Header>Phone Number</Header>
-          <HeaderValue>{user[0].guarantor.phoneNumber}</HeaderValue>
-        </PersonalInfo>
-        <PersonalInfo>
-          <Header>Email Address</Header>
-          <HeaderValue>debby@gmail.com</HeaderValue>
-        </PersonalInfo>
-        <PersonalInfo>
-          <Header>Relationship</Header>
-          <HeaderValue>Sister</HeaderValue>
-        </PersonalInfo>
-      </InfoWrapper>
-    </Details>
-  );
-
-  const Display = () => {
-    if (general) {
-      var result = displayGeneral();
-      return result;
-    } else {
-      result = <h3 style={{ margin: "30px 100px" }}>Coming soon</h3>;
-      return result;
-    }
+  const onTabChange = (index) => {
+    const item = data[index].comp;
+    setSliderdata(item);
   };
 
   return (
@@ -423,7 +62,7 @@ const UserDetails = () => {
         <SideBar />
       </Left>
       <Right>
-        <NavBar onMenuClick={onMenuClick} />
+        <NavBar onClick={onMenuClick} />
         <div
           style={{
             backgroundColor: "whitesmoke",
@@ -440,7 +79,7 @@ const UserDetails = () => {
             <UserActionButton
               style={{ marginLeft: "auto" }}
               onClick={() => {
-                buttonClick("blacklist");
+                StatusUpdate(axios, "blacklist", user._id);
               }}
               color="red"
             >
@@ -448,7 +87,7 @@ const UserDetails = () => {
             </UserActionButton>
             <UserActionButton
               onClick={() => {
-                buttonClick("activate");
+                StatusUpdate(axios, "activate", user._id);
               }}
               color="aqua"
             >
@@ -457,10 +96,10 @@ const UserDetails = () => {
           </UserAction>
           <Info>
             <Wrapper>
-              <ProfilePic src={user[0].profile.avatar} alt="avatar" />
+              <ProfilePic src={user.profile.avatar} alt="avatar" />
               <div className="info">
-                <h3>{`${user[0].profile.firstName} ${user[0].profile.lastName}`}</h3>
-                <p>{user[0].accountNumber}</p>
+                <h3>{`${user.profile.firstName} ${user.profile.lastName}`}</h3>
+                <p>{user.account.accountName}</p>
               </div>
               <VerticalLine className="info-v" />
               <div className="info-u">
@@ -479,7 +118,7 @@ const UserDetails = () => {
                   flexWrap: "wrap",
                 }}
               >
-                <p className="acc-bal-p">₦{user[0].accountBalance}</p>
+                <p className="acc-bal-p">₦{user.account.accountBalance}</p>
                 <div
                   style={{
                     fontSize: "12px",
@@ -490,20 +129,19 @@ const UserDetails = () => {
                     flexWrap: "wrap",
                   }}
                 >
-                  9912345678/Providus Bank
+                  {`${user.account.accountNumber}/${user.account.bank}`}
                 </div>
               </div>
             </Wrapper>
             <Tabs>
-              <TabDesc onClick={onClickGeneral}>General Details</TabDesc>
-              <TabDesc onClick={onTabChange}>Documents</TabDesc>
-              <TabDesc onClick={onTabChange}>Bank Details</TabDesc>
-              <TabDesc onClick={onTabChange}>Loans</TabDesc>
-              <TabDesc onClick={onTabChange}>Savings</TabDesc>
-              <TabDesc onClick={onTabChange}>App and System</TabDesc>
+              {data.map((item, index) => (
+                <TabDesc key={item.id} onClick={() => onTabChange(index)}>
+                  {item.title}
+                </TabDesc>
+              ))}
             </Tabs>
           </Info>
-          {Display()}
+          {sliderdata}
         </div>
       </Right>
     </Container>
