@@ -96,7 +96,14 @@ const UserDetails = () => {
           </UserAction>
           <Info>
             <Wrapper>
-              <ProfilePic src={user.profile.avatar} alt="avatar" />
+              <ProfilePic
+                src={
+                  user.profile.avatar.startsWith("/")
+                    ? `${process.env.REACT_APP_LENDSQR_API_URL}${user.profile.avatar}`
+                    : user.profile.avatar
+                }
+                alt="avatar"
+              />
               <div className="info">
                 <h3>{`${user.profile.firstName} ${user.profile.lastName}`}</h3>
                 <p>{user.account.accountName}</p>

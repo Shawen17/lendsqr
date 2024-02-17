@@ -7,6 +7,19 @@ export const Back = styled.div`
   margin-bottom: 10px;
 `;
 
+export const Outline = styled.div`
+  display: flex;
+  margin-top: 6px;
+  font-size: 15px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  color: black;
+
+  @media screen and (max-width: 600px) {
+    font-size: 12px;
+  }
+`;
+
 export const Container = styled.div`
   display: flex;
   flex-direction: column;

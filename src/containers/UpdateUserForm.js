@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   banks,
   sectors,
@@ -32,8 +32,14 @@ const UpdateUserForm = () => {
   const [error, setError] = useState("");
   const [inputs, setInputs] = useState({});
   const [msg, setMsg] = useState("");
+const [data,setData]=useState(user)
+const [updated, setUpdated] = useState(false)
 
-  console.log(user)
+
+useEffect(()=>{
+
+},[updated])
+  
 
   const Handleback = () => {
     navigate(-1);
@@ -66,6 +72,7 @@ const UpdateUserForm = () => {
     "email",
     "userName",
     "status",
+    
   ];
   const guarantorKeys = [
     "guaAddress",
@@ -95,6 +102,7 @@ const UpdateUserForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const body = new FormData();
 
     const profile = mergeFields(inputs, profileKeys);
     const guarantor = mergeFields(inputs, guarantorKeys);
@@ -105,17 +113,24 @@ const UpdateUserForm = () => {
 
     const minimumIncome = inputs.minimumIncome;
     const maximumIncome = inputs.maximumIncome;
-    const monthlyIncome = [minimumIncome, maximumIncome];
-    const account = { ...partAccount, monthlyIncome: monthlyIncome };
-
-    const data = new FormData();
-    data.append("account", JSON.stringify(account));
-    data.append("organization", JSON.stringify(organization));
-    data.append("education", JSON.stringify(education));
-    data.append("socials", JSON.stringify(socials));
-    data.append("guarantor", JSON.stringify(guarantor));
-    data.append("profile", JSON.stringify(profile));
-    data.append("avatar", inputs.avatar);
+    var monthlyIncome
+    if(minimumIncome || maximumIncome){
+      if(minimumIncome){
+        monthlyIncome = [minimumIncome, data.account.monthlyIncome[1]];
+      }else{
+        monthlyIncome = [data.account.monthlyIncome[0], maximumIncome];
+      }
+      var account = { ...partAccount, monthlyIncome: monthlyIncome };
+      body.append("account", JSON.stringify(account))
+    }
+    
+    inputs.avatar && body.append("avatar", inputs.avatar)
+    Object.keys(organization).length>0 && body.append("organization", JSON.stringify(organization))
+    Object.keys(education).length>0 && body.append("education", JSON.stringify(education));
+    Object.keys(socials).length>0 && body.append("socials", JSON.stringify(socials))
+    Object.keys(guarantor).length>0 && body.append("guarantor", JSON.stringify(guarantor))
+    Object.keys(profile).length >0 && body.append("profile", JSON.stringify(profile));
+    body.append("user_id",user._id)
 
     const config = {
       headers: {
@@ -128,15 +143,17 @@ const UpdateUserForm = () => {
     try {
       await axios.put(
         `${process.env.REACT_APP_LENDSQR_API_URL}/api/users/`,
-        data,
+        body,
         config
-      );
-      setMsg("User added successfully");
+      ).then(response=>setData(response.data))
+      .catch(error=>setError(error))
+      setUpdated(!updated)
+      setMsg("User updated successfully");
     } catch (error) {
       setError(error);
     }
 
-    setInputs({});
+    
 
     window.scrollTo({
       top: 0,
@@ -172,7 +189,7 @@ const UpdateUserForm = () => {
                     placeholder="first name"
                     type="text"
                     name="firstName"
-                    value={user.profile.firstName}
+                    value={data.profile.firstName}
                     readOnly
                   />
                 </SearchContainer>
@@ -184,7 +201,7 @@ const UpdateUserForm = () => {
                     placeholder="last name"
                     type="text"
                     name="lastName"
-                    value={inputs.lastName || user.profile.lastName}
+                    value={inputs.lastName || data.profile.lastName}
                     onChange={handleChange}
                   />
                 </SearchContainer>
@@ -196,7 +213,7 @@ const UpdateUserForm = () => {
                     placeholder="email"
                     type="email"
                     name="email"
-                    value={inputs.email || user.profile.email}
+                    value={inputs.email || data.profile.email}
                     onChange={handleChange}
                   />
                 </SearchContainer>
@@ -208,7 +225,7 @@ const UpdateUserForm = () => {
                     placeholder="Username"
                     type="text"
                     name="userName"
-                    value={user.profile.userName}
+                    value={data.profile.userName}
                     readOnly
                   />
                 </SearchContainer>
@@ -220,7 +237,7 @@ const UpdateUserForm = () => {
                     placeholder="phone number"
                     type="text"
                     name="phoneNumber"
-                    value={inputs.phoneNumber || user.profile.phoneNumber}
+                    value={inputs.phoneNumber || data.profile.phoneNumber}
                     onChange={handleChange}
                   />
                 </SearchContainer>
@@ -241,7 +258,7 @@ const UpdateUserForm = () => {
                 <SearchContainer>
                   <Select
                     name="gender"
-                    value={inputs.gender || user.profile.gender}
+                    value={inputs.gender || data.profile.gender}
                     onChange={handleChange}
                   >
                      <option value="others"></option>
@@ -259,7 +276,7 @@ const UpdateUserForm = () => {
                     placeholder="Home Address"
                     type="text"
                     name="address"
-                    value={inputs.address || user.profile.address}
+                    value={inputs.address || data.profile.address}
                     onChange={handleChange}
                   />
                 </SearchContainer>
@@ -269,7 +286,7 @@ const UpdateUserForm = () => {
                 <SearchContainer>
                   <Select
                     name="level"
-                    value={inputs.level || user.education.level}
+                    value={inputs.level || data.education.level}
                     onChange={handleChange}
                   >
                     <option value="others"></option>
@@ -288,7 +305,7 @@ const UpdateUserForm = () => {
                 <SearchContainer>
                   <Select
                     name="status"
-                    value={inputs.status || user.profile.status}
+                    value={inputs.status || data.profile.status}
                     onChange={handleChange}
                   >
                     <option value="others"></option>
@@ -312,7 +329,7 @@ const UpdateUserForm = () => {
                     placeholder="Account Number"
                     type="text"
                     name="accountName"
-                    value={inputs.accountName || user.account.accountName}
+                    value={inputs.accountName || data.account.accountName}
                     onChange={handleChange}
                   />
                 </SearchContainer>
@@ -324,7 +341,7 @@ const UpdateUserForm = () => {
                     placeholder="Account Number"
                     type="number"
                     name="accountNumber"
-                    value={inputs.accountNumber || user.account.accountNumber}
+                    value={inputs.accountNumber || data.account.accountNumber}
                     onChange={handleChange}
                   />
                 </SearchContainer>
@@ -334,7 +351,7 @@ const UpdateUserForm = () => {
                 <SearchContainer>
                   <Select
                     name="bank"
-                    value={inputs.bank || user.account.bank}
+                    value={inputs.bank || data.account.bank}
                     onChange={handleChange}
                   >
                     {banks.map((bank) => (
@@ -350,9 +367,10 @@ const UpdateUserForm = () => {
                 <SearchContainer>
                   <Input
                     placeholder="Account Balance"
-                    type="text"
+                    type="number"
+                    step="0.01"
                     name="accountBalance"
-                    value={parseFloat(inputs.accountBalance) || user.account.accountBalance}
+                    value={inputs.accountBalance || data.account.accountBalance}
                     onChange={handleChange}
                   />
                 </SearchContainer>
@@ -364,7 +382,7 @@ const UpdateUserForm = () => {
                     placeholder="BVN"
                     type="number"
                     name="bvn"
-                    value={inputs.bvn || user.profile.bvn}
+                    value={inputs.bvn || data.profile.bvn}
                     readOnly
                   />
                 </SearchContainer>
@@ -374,9 +392,10 @@ const UpdateUserForm = () => {
                 <SearchContainer>
                   <Input
                     placeholder="Loan Repayment"
-                    type="text"
+                    type="number"
+                    step="0.01"
                     name="loanRepayment"
-                    value={parseFloat(inputs.loanRepayment) || user.account.loanRepayment}
+                    value={inputs.loanRepayment || data.account.loanRepayment}
                     onChange={handleChange}
                   />
                 </SearchContainer>
@@ -386,9 +405,10 @@ const UpdateUserForm = () => {
                 <SearchContainer>
                   <Input
                     placeholder="Minimum Income"
-                    type="text"
+                    type="number"
+                    step="0.01"
                     name="minimumIncome"
-                    value={parseFloat(inputs.minimumIncome) || user.account.monthlyIncome[0]}
+                    value={inputs.minimumIncome|| data.account.monthlyIncome[0]}
                     onChange={handleChange}
                   />
                 </SearchContainer>
@@ -398,9 +418,10 @@ const UpdateUserForm = () => {
                 <SearchContainer>
                   <Input
                     placeholder="Maximum Income"
-                    type="text"
+                    type="number"
+                    step="0.01"
                     name="maximumIncome"
-                    value={parseFloat(inputs.maximumIncome) || user.account.monthlyIncome[1]}
+                    value={inputs.maximumIncome || data.account.monthlyIncome[1]}
                     onChange={handleChange}
                   />
                 </SearchContainer>
@@ -417,7 +438,7 @@ const UpdateUserForm = () => {
                     placeholder="Name of your Organization"
                     type="text"
                     name="orgName"
-                    value={inputs.orgName || user.organization.orgName}
+                    value={inputs.orgName || data.organization.orgName}
                     onChange={handleChange}
                   />
                 </SearchContainer>
@@ -429,7 +450,7 @@ const UpdateUserForm = () => {
                     placeholder="Organization Number"
                     type="text"
                     name="orgNumber"
-                    value={inputs.orgNumber || user.organization.orgNumber}
+                    value={inputs.orgNumber || data.organization.orgNumber}
                     onChange={handleChange}
                   />
                 </SearchContainer>
@@ -441,7 +462,7 @@ const UpdateUserForm = () => {
                     placeholder="Organization Email"
                     type="email"
                     name="officeEmail"
-                    value={inputs.officeEmail || user.organization.officeEmail}
+                    value={inputs.officeEmail || data.organization.officeEmail}
                     onChange={handleChange}
                   />
                 </SearchContainer>
@@ -452,7 +473,7 @@ const UpdateUserForm = () => {
                 <SearchContainer>
                   <Select
                     name="employmentStatus"
-                    value={inputs.employmentStatus || user.organization.employmentStatus}
+                    value={inputs.employmentStatus || data.organization.employmentStatus}
                     onChange={handleChange}
                   >
                     <option value="others"></option>
@@ -468,7 +489,7 @@ const UpdateUserForm = () => {
                 <SearchContainer>
                   <Select
                     name="sector"
-                    value={inputs.sector || user.organization.sector}
+                    value={inputs.sector || data.organization.sector}
                     onChange={handleChange}
                   >
                     {sectors.map((sector) => (
@@ -486,7 +507,7 @@ const UpdateUserForm = () => {
                     placeholder="e.g 2 Years"
                     type="text"
                     name="duration"
-                    value={inputs.duration || user.organization.duration}
+                    value={inputs.duration || data.organization.duration}
                     onChange={handleChange}
                   />
                 </SearchContainer>
@@ -503,7 +524,7 @@ const UpdateUserForm = () => {
                     placeholder="Guarantor's First name"
                     type="text"
                     name="guaFirstName"
-                    value={user.guarantor.guaFirstName}
+                    value={data.guarantor.guaFirstName}
                     readOnly
                   />
                 </SearchContainer>
@@ -515,7 +536,7 @@ const UpdateUserForm = () => {
                     placeholder="Gurantor's Last name"
                     type="text"
                     name="guaLastName"
-                    value={user.guarantor.guaLastName}
+                    value={data.guarantor.guaLastName}
                     readOnly
                   />
                 </SearchContainer>
@@ -527,7 +548,7 @@ const UpdateUserForm = () => {
                     placeholder="Guarantor's Number"
                     type="text"
                     name="guaNumber"
-                    value={user.guarantor.guaNumber }
+                    value={data.guarantor.guaNumber }
                     readOnly
                   />
                 </SearchContainer>
@@ -539,7 +560,7 @@ const UpdateUserForm = () => {
                     placeholder="Guarantor's Address"
                     type="text"
                     name="guaAddress"
-                    value={inputs.guaAddress || user.guarantor.guaAddress}
+                    value={inputs.guaAddress || data.guarantor.guaAddress}
                     onChange={handleChange}
                   />
                 </SearchContainer>
@@ -549,7 +570,7 @@ const UpdateUserForm = () => {
                 <SearchContainer>
                   <Select
                     name="guaGender"
-                    value={user.guarantor.guaGender || inputs.guaGender}
+                    value={ inputs.guaGender|| data.guarantor.guaGender}
                     onChange={handleChange}
                   >
                     <option value="others"></option>
@@ -565,7 +586,7 @@ const UpdateUserForm = () => {
                 <SearchContainer>
                   <Select
                     name="relationship"
-                    value={user.guarantor.relationship || inputs.relationship}
+                    value={ inputs.relationship||data.guarantor.relationship}
                     onChange={handleChange}
                   >
                    {relationships.map((relationship) => (
@@ -588,7 +609,7 @@ const UpdateUserForm = () => {
                     placeholder="facebook"
                     type="text"
                     name="facebook"
-                    value={user.socials.facebook }
+                    value={data.socials.facebook }
                     readOnly
                   />
                 </SearchContainer>
@@ -600,7 +621,7 @@ const UpdateUserForm = () => {
                     placeholder="Instagram handle"
                     type="text"
                     name="instagram"
-                    value={user.socials.instagram}
+                    value={data.socials.instagram}
                    readOnly
                   />
                 </SearchContainer>
@@ -612,7 +633,7 @@ const UpdateUserForm = () => {
                     placeholder="X handle"
                     type="text"
                     name="twitter"
-                    value={user.socials.twitter}
+                    value={data.socials.twitter}
                     readOnly
                   />
                 </SearchContainer>

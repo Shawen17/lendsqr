@@ -118,10 +118,11 @@ const Dashbaord = () => {
   };
 
   const nextPage = () => {
-    if (page < Math.ceil(filteredUsers.length / PageSize)) {
+    if (page < Math.ceil(raw.items.all_users / PageSize)) {
       setPage(page + 1);
     }
   };
+
   const prevPage = () => {
     if (page > 1) {
       setPage(page - 1);

@@ -346,9 +346,10 @@ const AddUserForm = () => {
                 <SearchContainer>
                   <Input
                     placeholder="Account Balance"
-                    type="text"
+                    type="number"
+                    step="0.01"
                     name="accountBalance"
-                    value={parseFloat(inputs.accountBalance) || ""}
+                    value={inputs.accountBalance || ""}
                     onChange={handleChange}
                   />
                 </SearchContainer>
@@ -370,9 +371,10 @@ const AddUserForm = () => {
                 <SearchContainer>
                   <Input
                     placeholder="Loan Repayment"
-                    type="text"
+                    type="number"
+                    step="0.01"
                     name="loanRepayment"
-                    value={parseFloat(inputs.loanRepayment) || ""}
+                    value={inputs.loanRepayment || ""}
                     onChange={handleChange}
                   />
                 </SearchContainer>
@@ -382,9 +384,10 @@ const AddUserForm = () => {
                 <SearchContainer>
                   <Input
                     placeholder="Minimum Income"
-                    type="text"
+                    type="number"
+                    step="0.01"
                     name="minimumIncome"
-                    value={parseFloat(inputs.minimumIncome) || ""}
+                    value={inputs.minimumIncome || ""}
                     onChange={handleChange}
                   />
                 </SearchContainer>
@@ -394,9 +397,10 @@ const AddUserForm = () => {
                 <SearchContainer>
                   <Input
                     placeholder="Maximum Income"
-                    type="text"
+                    type="number"
+                    step="0.01"
                     name="maximumIncome"
-                    value={parseFloat(inputs.maximumIncome) || ""}
+                    value={inputs.maximumIncome || ""}
                     onChange={handleChange}
                   />
                 </SearchContainer>

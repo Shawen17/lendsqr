@@ -32,7 +32,7 @@ export const mergeFields = (obj, keysToSearch) => {
   const result = {};
 
   for (const key in obj) {
-    if (keysToSearch.some((searchKey) => key.includes(searchKey))) {
+    if (keysToSearch.some((searchKey) => key.includes(searchKey) && (obj[key]!==undefined || obj[key]!== null ))) {
       result[key] = obj[key];
     }
   }
@@ -96,4 +96,22 @@ export const relationships =[
   {id:8,name:"Colleague"},
   {id:9,name:"Aunty"},
 
+]
+
+export const provinces =[
+  {id:0,name:""},
+  {id:1,name:"Alberta"},
+  {id:2,name:"British Columbia"},
+  {id:3,name:"Manitoba"},
+  {id:4,name:"New Brunswick"},
+  {id:5,name:"Newfoundland and Labrador"},
+  {id:6,name:"Nova Scotia"},
+  {id:7,name:"Nunavut"},
+  {id:8,name:"Ontario"},
+  {id:9,name:"Prince Edward Island"},
+  {id:10,name:"Quebec"},
+  {id:11,name:"Saskatchewan"},
+  {id:12,name:"Yukon"},
+  {id:13,name:"Northwest Territories"},
+  
 ]

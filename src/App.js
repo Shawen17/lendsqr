@@ -5,6 +5,7 @@ import Dashbaord from "./containers/Dashboard";
 import UserDetails from "./containers/UserDetails";
 import AddUserForm from "./containers/AddUserForm";
 import UpdateUserForm from "./containers/UpdateUserForm";
+import Signup from "./containers/Signup";
 
 
 
@@ -17,6 +18,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" exact element={<Login />} />
+        <Route path="/signup" exact element={<Signup />} />
         <Route path="/dashboard" exact element={<Dashbaord />} />
         <Route path="/user-details" exact element={<UserDetails />} />
         <Route path="/add-profile" exact element={<AddUserForm />} />
