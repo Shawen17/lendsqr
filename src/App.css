@@ -367,3 +367,23 @@ td {
     opacity: 1;
   }
 }
+
+/* Navbar */
+.profile-picture {
+  display: inline-block;
+  
+}
+
+.profile-picture img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.profile-picture input[type='file'] {
+ width: 100%;
+  height: 20%;
+  opacity: 1;
+  cursor: pointer;
+}

@@ -136,7 +136,7 @@ const UpdateUserForm = () => {
     const config = {
       headers: {
         "Content-Type": "multipart/form-data",
-        // Authorization: `JWT ${localStorage.getItem("access")}`,
+        Authorization: `JWT ${localStorage.getItem("access")}`,
         Accept: "application/json",
       },
     };

@@ -7,8 +7,11 @@ import {
   Menu,
 } from "@material-ui/icons";
 import { Link } from "react-router-dom";
-import { logout } from "../action/auth";
+import { logout, get_portfolio } from "../action/auth";
 import { connect } from "react-redux";
+import ProfilePicture from "./ProfilePicture";
+import defaultPic from "../components/asset/default_profile_pic.png";
+import axios from "axios";
 
 const Wrapper = styled.div`
   display: flex;
@@ -67,13 +70,6 @@ const SearchContainer = styled.div`
       width: 20%;
     }
   }
-`;
-
-const Image = styled.img`
-  height: 60px;
-  width: 60px;
-  border-radius: 50%;
-  margin-right: 6px;
 `;
 
 export const DropDownHeader = styled.div`
@@ -158,9 +154,43 @@ const TopMenu = styled.div`
 
 const NavBar = (props) => {
   const [toggle, setToggle] = useState(false);
+  const [profilePicture, setProfilePicture] = useState(
+    props.details.profile.avatar
+      ? `${process.env.REACT_APP_LENDSQR_API_URL}${props.details.profile.avatar}`
+      : defaultPic
+  );
 
   const handleDropDown = () => {
     setToggle(!toggle);
+  };
+
+  const handlePictureChange = (file) => {
+    const reader = new FileReader();
+    reader.onloadend = async () => {
+      setProfilePicture(reader.result);
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `JWT ${localStorage.getItem("access")}`,
+          Accept: "application/json",
+        },
+      };
+      const body = { avatar: file, user_id: props.details._id };
+      try {
+        await axios
+          .put(
+            `${process.env.REACT_APP_LENDSQR_API_URL}/api/users/`,
+            body,
+            config
+          )
+          .then((response) => response)
+          .catch((error) => console.log(error));
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    props.get_portfolio(props.details.profile.email);
+    reader.readAsDataURL(file);
   };
 
   return (
@@ -184,7 +214,10 @@ const NavBar = (props) => {
           <NotificationsOutlined
             style={{ height: 40, width: 40, marginRight: "6px" }}
           />
-          <Image src="/static/icons/my_selfie.jpg" />
+          <ProfilePicture
+            currentPicture={profilePicture}
+            onPictureChange={handlePictureChange}
+          />
         </Navlink>
 
         <DropDownContainer>
@@ -212,9 +245,10 @@ const mapStateToProps = (state) => {
   if (state.auth.user) {
     return {
       user: state.auth.user.first_name,
+      details: state.auth.portfolio,
     };
   } else {
     return { user: "" };
   }
 };
-export default connect(mapStateToProps, { logout })(NavBar);
+export default connect(mapStateToProps, { logout, get_portfolio })(NavBar);

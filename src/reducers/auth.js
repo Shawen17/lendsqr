@@ -14,6 +14,10 @@ import {
   AUTHENTICATION_FAIL,
   UPDATE_STAFF_STATUS_SUCCESS,
   UPDATE_STAFF_STATUS_FAIL,
+  ADD_USER_TO_PORTFOLIO_SUCCESS,
+  ADD_USER_TO_PORTFOLIO_FAIL,
+  PORTFOLIO_RETRIVAL_FAIL,
+  PORTFOLIO_RETRIVAL_SUCCESS,
 } from "../action/types";
 
 const initialState = {
@@ -23,6 +27,8 @@ const initialState = {
   user: null,
   failed: false,
   isStaff: false,
+  portfolioAdded: false,
+  portfolio: null,
 };
 
 export default function foo(state = initialState, action) {
@@ -47,12 +53,9 @@ export default function foo(state = initialState, action) {
         failed: false,
       };
     case SIGNUP_SUCCESS:
-      // localStorage.setItem("access", payload.access);
       return {
         ...state,
         isAuthenticated: true,
-        // access: payload.access,
-        // refresh: payload.refresh,
       };
     case USER_LOADED_FAIL:
       return {
@@ -79,6 +82,24 @@ export default function foo(state = initialState, action) {
         isStaff: payload.is_staff,
       };
     case UPDATE_STAFF_STATUS_FAIL:
+      return {
+        ...state,
+      };
+    case ADD_USER_TO_PORTFOLIO_SUCCESS:
+      return {
+        ...state,
+        portfolioAdded: true,
+      };
+    case ADD_USER_TO_PORTFOLIO_FAIL:
+      return {
+        ...state,
+      };
+    case PORTFOLIO_RETRIVAL_SUCCESS:
+      return {
+        ...state,
+        portfolio: payload,
+      };
+    case PORTFOLIO_RETRIVAL_FAIL:
       return {
         ...state,
       };

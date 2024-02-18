@@ -14,6 +14,10 @@ import {
   SIGNUP_FAIL,
   UPDATE_STAFF_STATUS_FAIL,
   UPDATE_STAFF_STATUS_SUCCESS,
+  ADD_USER_TO_PORTFOLIO_SUCCESS,
+  ADD_USER_TO_PORTFOLIO_FAIL,
+  PORTFOLIO_RETRIVAL_SUCCESS,
+  PORTFOLIO_RETRIVAL_FAIL,
 } from "./types";
 import axios from "axios";
 
@@ -113,6 +117,7 @@ export const login = (email, password) => async (dispatch) => {
 
     dispatch(load_user());
     dispatch(is_staff(email));
+    dispatch(get_portfolio(email));
   } catch (err) {
     dispatch({
       type: LOGIN_FAIL,
@@ -148,12 +153,72 @@ export const signup =
         type: SIGNUP_SUCCESS,
         payload: res.data,
       });
+      dispatch(add_portfolio(email, first_name, last_name));
     } catch (err) {
       dispatch({
         type: SIGNUP_FAIL,
       });
     }
   };
+
+export const add_portfolio =
+  (email, first_name, last_name) => async (dispatch) => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    };
+    const body = JSON.stringify({ email, first_name, last_name });
+    try {
+      await axios.post(
+        `${process.env.REACT_APP_LENDSQR_API_URL}/api/add-staff-portfolio/`,
+        body,
+        config
+      );
+      dispatch({
+        type: ADD_USER_TO_PORTFOLIO_SUCCESS,
+      });
+    } catch (err) {
+      dispatch({
+        type: ADD_USER_TO_PORTFOLIO_FAIL,
+      });
+    }
+  };
+
+export const get_portfolio = (email) => async (dispatch) => {
+  if (localStorage.getItem("access")) {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `JWT ${localStorage.getItem("access")}`,
+        Accept: "application/json",
+      },
+    };
+
+    try {
+      const res = await axios.get(
+        `${process.env.REACT_APP_LENDSQR_API_URL}/api/add-staff-portfolio/`,
+        {
+          params: { email: email },
+        },
+        config
+      );
+      dispatch({
+        type: PORTFOLIO_RETRIVAL_SUCCESS,
+        payload: res.data,
+      });
+    } catch (err) {
+      dispatch({
+        type: PORTFOLIO_RETRIVAL_FAIL,
+      });
+    }
+  } else {
+    dispatch({
+      type: PORTFOLIO_RETRIVAL_FAIL,
+    });
+  }
+};
 
 export const is_staff = (email) => async (dispatch) => {
   if (localStorage.getItem("access")) {
@@ -267,142 +332,3 @@ export const logout = () => (dispatch) => {
     type: LOGOUT,
   });
 };
-
-//   export const fetchCart = (email) => async (dispatch) => {
-//     if (email) {
-//       const body = JSON.stringify({ email });
-//       const config = {
-//         headers: {
-//           "Content-Type": "application/json",
-//           Authorization: `JWT ${localStorage.getItem("access")}`,
-//           Accept: "application/json",
-//         },
-//       };
-//       try {
-//         const res = await axios.put(
-//           `${process.env.REACT_APP_GIVEAWAYNOW_API_URL}/api/cart/display/`,
-//           body,
-//           config
-//         );
-//         if (res.data.code !== "token_not_valid") {
-//           dispatch({
-//             type: CART_LOADED_SUCCESS,
-//             payload: res.data,
-//           });
-//         } else {
-//           dispatch({
-//             type: CART_LOADED_FAIL,
-//           });
-//         }
-//       } catch (err) {
-//         dispatch({
-//           type: CART_LOADED_FAIL,
-//         });
-//       }
-//     } else {
-//       dispatch({
-//         type: CART_LOADED_FAIL,
-//       });
-//     }
-//   };
-
-//   export const addToCart = (email, product, count) => async (dispatch) => {
-//     if (localStorage.getItem("access")) {
-//       const body = JSON.stringify({
-//         product_id: product.id,
-//         email: email,
-//         quantity: count,
-//       });
-//       const config = {
-//         headers: {
-//           "Content-Type": "application/json",
-//           Authorization: `JWT ${localStorage.getItem("access")}`,
-//           Accept: "application/json",
-//         },
-//       };
-//       try {
-//         const res = await axios.put(
-//           `${process.env.REACT_APP_GIVEAWAYNOW_API_URL}/api/update/cart/`,
-//           body,
-//           config
-//         );
-//         if (res.data.code !== "token_not_valid") {
-//           dispatch({
-//             type: CART_ADDED_SUCCESS,
-//             payload: res.data,
-//           });
-//           dispatch(fetchCart(localStorage.getItem("email")));
-//         } else {
-//           dispatch({
-//             type: CART_ADDED_FAIL,
-//           });
-//         }
-//       } catch (err) {
-//         if (err.response.status === 401) {
-//           dispatch(logout());
-//         } else if (err.response.status === 400) {
-//           alert(`only ${product.quantity} of this item is left`);
-//         } else {
-//           alert("this item is no longer available");
-//         }
-//       }
-//     } else {
-//       dispatch({
-//         type: CART_ADDED_FAIL,
-//       });
-//     }
-//   };
-
-//   export const checkout = () => async (dispatch) => {
-//     dispatch({
-//       type: CART_ADDED_FAIL,
-//     });
-//   };
-
-//   export const addMultiToCart = (email, product) => async (dispatch) => {
-//     if (localStorage.getItem("access")) {
-//       const [productIds, counts] = extractIds(product);
-//       const body = JSON.stringify({
-//         product_id: productIds,
-//         email: email,
-//         quantity: counts,
-//       });
-//       const config = {
-//         headers: {
-//           "Content-Type": "application/json",
-//           Authorization: `JWT ${localStorage.getItem("access")}`,
-//           Accept: "application/json",
-//         },
-//       };
-//       try {
-//         const res = await axios.put(
-//           `${process.env.REACT_APP_GIVEAWAYNOW_API_URL}/api/update/multicart/`,
-//           body,
-//           config
-//         );
-//         if (res.data.code !== "token_not_valid") {
-//           dispatch({
-//             type: CART_ADDED_SUCCESS,
-//             payload: res.data,
-//           });
-//           dispatch(fetchCart(localStorage.getItem("email")));
-//         } else {
-//           dispatch({
-//             type: CART_ADDED_FAIL,
-//           });
-//         }
-//       } catch (err) {
-//         if (err.response.status === 401) {
-//           dispatch(logout());
-//         } else if (err.response.status === 400) {
-//           alert(`only ${product.quantity} of this item is left`);
-//         } else {
-//           alert("this item is no longer available");
-//         }
-//       }
-//     } else {
-//       dispatch({
-//         type: CART_ADDED_FAIL,
-//       });
-//     }
-//   };
