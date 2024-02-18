@@ -4,6 +4,7 @@ import SideBar from "../components/SideBar";
 import Users from "../components/Users";
 import NavBar from "../components/NavBar";
 import axios from "axios";
+import { motion } from "framer-motion";
 
 const Container = styled.div`
   padding: 8px;
@@ -186,60 +187,77 @@ const Dashbaord = () => {
   }, [searchValue, raw.items.users_paginated]);
 
   return (
-    <Container>
-      <Left className={display ? "appear" : "disappear"}>
-        <SideBar />
-      </Left>
-      <Right>
-        <NavBar
-          searchValue={searchValue}
-          HandleInputChange={HandleInputChange}
-          onMenuClick={onMenuClick}
-        />
-        <div style={{ backgroundColor: "whitesmoke" }}>
-          <h3
-            style={{ color: "#0050B5", marginLeft: "10px", paddingTop: "25px" }}
-          >
-            Users
-          </h3>
-          <Dashstats>
-            <Stats>
-              <StatIcon src="/static/icons/user.png" alt="user" />
-              <StatDesc>users</StatDesc>
-              <StatNum>{raw.items.all_users}</StatNum>
-            </Stats>
-            <Stats>
-              <StatIcon src="/static/icons/user_active.png" alt="active icon" />
-              <StatDesc>ACTIVE USERS</StatDesc>
-              <StatNum>{raw.items.active}</StatNum>
-            </Stats>
-            <Stats>
-              <StatIcon src="/static/icons/user_loan.png" alt="loan icon" />
-              <StatDesc>USERS WITH LOANS</StatDesc>
-              <StatNum>{raw.items.loan}</StatNum>
-            </Stats>
-            <Stats>
-              <StatIcon
-                src="/static/icons/user_savings.png"
-                alt="savings icon"
-              />
-              <StatDesc>USERS WITH SAVINGS</StatDesc>
-              <StatNum>{raw.items.savings}</StatNum>
-            </Stats>
-          </Dashstats>
-          <Users
-            page={page}
-            filterInProgress={filterInProgress}
-            PageSize={PageSize}
-            totalCount={raw.items.all_users}
-            prevPage={prevPage}
-            nextPage={nextPage}
-            currentData={filteredUsers}
-            updateStatus={updateStatus}
+    <motion.div
+      initial={{ scale: 0 }}
+      animate={{ rotate: 0, scale: 1 }}
+      transition={{
+        type: "spring",
+        stiffness: 260,
+        damping: 20,
+      }}
+    >
+      <Container>
+        <Left className={display ? "appear" : "disappear"}>
+          <SideBar />
+        </Left>
+        <Right>
+          <NavBar
+            searchValue={searchValue}
+            HandleInputChange={HandleInputChange}
+            onMenuClick={onMenuClick}
           />
-        </div>
-      </Right>
-    </Container>
+          <div style={{ backgroundColor: "whitesmoke" }}>
+            <h3
+              style={{
+                color: "#0050B5",
+                marginLeft: "10px",
+                paddingTop: "25px",
+              }}
+            >
+              Users
+            </h3>
+            <Dashstats>
+              <Stats>
+                <StatIcon src="/static/icons/user.png" alt="user" />
+                <StatDesc>users</StatDesc>
+                <StatNum>{raw.items.all_users}</StatNum>
+              </Stats>
+              <Stats>
+                <StatIcon
+                  src="/static/icons/user_active.png"
+                  alt="active icon"
+                />
+                <StatDesc>ACTIVE USERS</StatDesc>
+                <StatNum>{raw.items.active}</StatNum>
+              </Stats>
+              <Stats>
+                <StatIcon src="/static/icons/user_loan.png" alt="loan icon" />
+                <StatDesc>USERS WITH LOANS</StatDesc>
+                <StatNum>{raw.items.loan}</StatNum>
+              </Stats>
+              <Stats>
+                <StatIcon
+                  src="/static/icons/user_savings.png"
+                  alt="savings icon"
+                />
+                <StatDesc>USERS WITH SAVINGS</StatDesc>
+                <StatNum>{raw.items.savings}</StatNum>
+              </Stats>
+            </Dashstats>
+            <Users
+              page={page}
+              filterInProgress={filterInProgress}
+              PageSize={PageSize}
+              totalCount={raw.items.all_users}
+              prevPage={prevPage}
+              nextPage={nextPage}
+              currentData={filteredUsers}
+              updateStatus={updateStatus}
+            />
+          </div>
+        </Right>
+      </Container>
+    </motion.div>
   );
 };
 

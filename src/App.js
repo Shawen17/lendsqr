@@ -6,25 +6,60 @@ import UserDetails from "./containers/UserDetails";
 import AddUserForm from "./containers/AddUserForm";
 import UpdateUserForm from "./containers/UpdateUserForm";
 import Signup from "./containers/Signup";
-
-
-
+import { Provider } from "react-redux";
+import store from "./store";
+import ProtectedRoute from "./components/ProtectedRoute";
+import ResetPassword from "./containers/ResetPassword";
+import ResetPasswordConfirm from "./containers/ResetPasswordConfirm";
 
 function App() {
-  
-
   return (
-   
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" exact element={<Login />} />
-        <Route path="/signup" exact element={<Signup />} />
-        <Route path="/dashboard" exact element={<Dashbaord />} />
-        <Route path="/user-details" exact element={<UserDetails />} />
-        <Route path="/add-profile" exact element={<AddUserForm />} />
-        <Route path="/update-profile" exact element={<UpdateUserForm />} />
-      </Routes>
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" exact element={<Login />} />
+          <Route path="/signup" exact element={<Signup />} />
+          <Route path="/reset-password" exact element={<ResetPassword />} />
+          <Route
+            path="/password/reset/confirm/:uid/:token"
+            exact
+            element={<ResetPasswordConfirm />}
+          />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashbaord />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/user-details"
+            element={
+              <ProtectedRoute>
+                <UserDetails />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/add-profile"
+            element={
+              <ProtectedRoute>
+                <AddUserForm />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/update-profile"
+            element={
+              <ProtectedRoute>
+                <UpdateUserForm />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </BrowserRouter>
+    </Provider>
   );
 }
 

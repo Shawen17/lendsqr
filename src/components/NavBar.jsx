@@ -7,6 +7,8 @@ import {
   Menu,
 } from "@material-ui/icons";
 import { Link } from "react-router-dom";
+import { logout } from "../action/auth";
+import { connect } from "react-redux";
 
 const Wrapper = styled.div`
   display: flex;
@@ -187,7 +189,7 @@ const NavBar = (props) => {
 
         <DropDownContainer>
           <div className="sidebar-link nav" onClick={handleDropDown}>
-            Shawen
+            {props.user}
             <span>
               {" "}
               <KeyboardArrowDownOutlined />{" "}
@@ -198,7 +200,7 @@ const NavBar = (props) => {
               className={toggle ? "show-dropdown" : "hide-dropdown"}
             >
               <ListItem>account</ListItem>
-              <ListItem>logout</ListItem>
+              <ListItem onClick={() => props.logout()}>logout</ListItem>
             </DropDownList>
           </DropDownListContainer>
         </DropDownContainer>
@@ -206,5 +208,13 @@ const NavBar = (props) => {
     </Wrapper>
   );
 };
-
-export default NavBar;
+const mapStateToProps = (state) => {
+  if (state.auth.user) {
+    return {
+      user: state.auth.user.first_name,
+    };
+  } else {
+    return { user: "" };
+  }
+};
+export default connect(mapStateToProps, { logout })(NavBar);

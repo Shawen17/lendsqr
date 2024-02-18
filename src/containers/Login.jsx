@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import {
   Container,
   Brand,
@@ -15,16 +15,35 @@ import {
   Desc,
 } from "../components/authenticationStyles/StyledAuth";
 import { Outline } from "../components/Styled";
+import { motion } from "framer-motion";
+import { connect } from "react-redux";
+import { login } from "../action/auth";
 
-const Login = () => {
+const Login = ({ login, isAuthenticated, loginFailed }) => {
+  window.title = "login";
+  const location = useLocation();
+  const signupMsg = location.state ? location.state : "Enter details to login";
   const navigate = useNavigate();
   const [inputValues, setValues] = useState({});
   const [clicked, setClicked] = useState(false);
+  const [error, setError] = useState("");
+  const [msg, setMsg] = useState(signupMsg);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      if (msg === "Enter details to login") {
+        navigate("/dashboard");
+      }
+      if (loginFailed) {
+        setError("email or password incorrect");
+      }
+    }
+  }, [isAuthenticated, navigate, loginFailed, msg]);
 
   const HandleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
-    setValues((values) => ({ ...values, [name]: value }));
+    setValues((values) => ({ ...values, [name]: value.trim() }));
   };
 
   const showPassword = () => {
@@ -33,11 +52,22 @@ const Login = () => {
 
   const HandleSubmit = (e) => {
     e.preventDefault();
-    navigate("/dashboard");
+    const email = inputValues.email;
+    const password = inputValues.password;
+    setMsg("Enter details to login");
+    login(email, password);
   };
 
   return (
-    <>
+    <motion.div
+      initial={{ scale: 0 }}
+      animate={{ rotate: 0, scale: 1 }}
+      transition={{
+        type: "spring",
+        stiffness: 260,
+        damping: 20,
+      }}
+    >
       <Container>
         <Brand>
           <BrandLogo>
@@ -62,9 +92,10 @@ const Login = () => {
                 paddingBottom: "50px",
               }}
             >
-              Enter details to login
+              {msg}
             </p>
             <Form onSubmit={HandleSubmit}>
+              <div style={{ fontSize: 13, color: "red" }}>{error}</div>
               <SearchContainer>
                 <Input
                   placeholder="Email"
@@ -99,6 +130,9 @@ const Login = () => {
                 FORGOT PASSWORD?
               </Link>
               <button
+                disabled={
+                  inputValues.email && inputValues.password ? false : true
+                }
                 onClick={HandleSubmit}
                 style={{
                   backgroundColor: "#00ffff",
@@ -122,8 +156,13 @@ const Login = () => {
           </Right>
         </Item>
       </Container>
-    </>
+    </motion.div>
   );
 };
 
-export default Login;
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+  loginFailed: state.auth.failed,
+});
+
+export default connect(mapStateToProps, { login })(Login);

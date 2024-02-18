@@ -9,10 +9,10 @@ export const Back = styled.div`
 
 export const Outline = styled.div`
   display: flex;
-  margin-top: 6px;
+  margin-top: 8px;
   font-size: 15px;
-  align-items: flex-start;
-  justify-content: flex-start;
+  align-items: center;
+  justify-content: center;
   color: black;
 
   @media screen and (max-width: 600px) {
@@ -33,6 +33,17 @@ export const Container = styled.div`
   }
 `;
 
+export const SignupContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: centre;
+  color: white;
+  background-image: url("/static/icons/signup.jpg");
+  background-size: cover;
+  height: 100vh;
+`;
+
 export const FormDisplay = styled.div`
   width: 80%;
   text-align: center;
@@ -41,6 +52,24 @@ export const FormDisplay = styled.div`
   flex-direction: column;
   justify-content: center;
   padding: 20px;
+
+  @media screen and (max-width: 568px) {
+    padding: 10px;
+    width: 100%;
+    margin: 0px;
+  }
+`;
+
+export const SignupDisplay = styled.div`
+  width: 40%;
+  text-align: center;
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 10px;
+  border-radius: 6px;
+  background-color: transparent;
 
   @media screen and (max-width: 568px) {
     padding: 10px;
@@ -82,14 +111,11 @@ export const SearchContainer = styled.div`
   &:hover {
     border: 0.5px solid #18a558;
   }
-
-  @media screen and (max-width: 600px) {
-    width: 100%;
-  }
 `;
 
 export const Input = styled.input`
   width: 100%;
+  color: black;
   border: none;
   border-radius: 6px;
   background-color: transparent;
