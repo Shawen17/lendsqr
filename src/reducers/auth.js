@@ -91,6 +91,7 @@ export default function foo(state = initialState, action) {
         isAuthenticated: false,
         user: null,
         failed: true,
+        isStaff: false,
       };
     case SIGNUP_FAIL:
     case LOGOUT:
@@ -105,6 +106,7 @@ export default function foo(state = initialState, action) {
         isAuthenticated: false,
         user: null,
         failed: false,
+        isStaff: false,
       };
     case PASSWORD_RESET_SUCCESS:
     case PASSWORD_RESET_FAIL:
