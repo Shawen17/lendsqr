@@ -11,6 +11,8 @@ import store from "./store";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ResetPassword from "./containers/ResetPassword";
 import ResetPasswordConfirm from "./containers/ResetPasswordConfirm";
+import UserDashboard from "./containers/UserDashboard";
+import AuthUserRoute from "./components/AuthUserRoute";
 
 function App() {
   return (
@@ -20,10 +22,19 @@ function App() {
           <Route path="/" exact element={<Login />} />
           <Route path="/signup" exact element={<Signup />} />
           <Route path="/reset-password" exact element={<ResetPassword />} />
+
           <Route
             path="/password/reset/confirm/:uid/:token"
             exact
             element={<ResetPasswordConfirm />}
+          />
+          <Route
+            path="/user-dashboard"
+            element={
+              <AuthUserRoute>
+                <UserDashboard />
+              </AuthUserRoute>
+            }
           />
           <Route
             path="/dashboard"

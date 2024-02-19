@@ -128,6 +128,7 @@ export default function foo(state = initialState, action) {
         user: null,
         failed: false,
         isStaff: false,
+        portfolio: null,
       };
     case PASSWORD_RESET_SUCCESS:
     case PASSWORD_RESET_FAIL:

@@ -205,3 +205,25 @@ export const Pagination = styled.div`
   margin-top: 5px;
   padding: 15px;
 `;
+
+export const UserContainer = styled.div`
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const Left = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 28%;
+  align-items: flex-start;
+  justify-content: flex-start;
+`;
+
+export const Right = styled.div`
+  display: flex;
+  flex: 68%;
+  align-items: center;
+  justify-content: center;
+`;

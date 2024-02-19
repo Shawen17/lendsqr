@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   KeyboardBackspaceOutlined,
   StarOutlined,
@@ -72,7 +72,7 @@ const UserDetails = () => {
           <SideBar />
         </Left>
         <Right>
-          <NavBar onClick={onMenuClick} />
+          <NavBar onMenuClick={onMenuClick} />
           <div
             style={{
               backgroundColor: "whitesmoke",

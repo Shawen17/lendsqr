@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import {
   Search,
@@ -154,11 +154,19 @@ const TopMenu = styled.div`
 
 const NavBar = (props) => {
   const [toggle, setToggle] = useState(false);
-  const [profilePicture, setProfilePicture] = useState(
-    props.details.profile.avatar
-      ? `${process.env.REACT_APP_LENDSQR_API_URL}${props.details.profile.avatar}`
-      : defaultPic
-  );
+  const [profilePicture, setProfilePicture] = useState(defaultPic);
+
+  useEffect(() => {
+    if (
+      props.details &&
+      props.details.profile &&
+      props.details.profile.avatar
+    ) {
+      setProfilePicture(
+        `${process.env.REACT_APP_LENDSQR_API_URL}${props.details.profile.avatar}`
+      );
+    }
+  }, [props.details]);
 
   const handleDropDown = () => {
     setToggle(!toggle);
@@ -248,7 +256,7 @@ const mapStateToProps = (state) => {
       details: state.auth.portfolio,
     };
   } else {
-    return { user: "" };
+    return { user: "", details: "" };
   }
 };
 export default connect(mapStateToProps, { logout, get_portfolio })(NavBar);

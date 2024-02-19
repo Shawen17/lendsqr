@@ -19,7 +19,7 @@ import { motion } from "framer-motion";
 import { connect } from "react-redux";
 import { login } from "../action/auth";
 
-const Login = ({ login, isAuthenticated, loginFailed }) => {
+const Login = ({ login, isStaff, isAuthenticated, loginFailed }) => {
   window.title = "login";
   const location = useLocation();
   const signupMsg = location.state ? location.state : "Enter details to login";
@@ -32,13 +32,17 @@ const Login = ({ login, isAuthenticated, loginFailed }) => {
   useEffect(() => {
     if (isAuthenticated) {
       if (msg === "Enter details to login") {
-        navigate("/dashboard");
+        if (isStaff) {
+          navigate("/dashboard");
+        } else {
+          navigate("/user-dashboard");
+        }
       }
       if (loginFailed) {
         setError("email or password incorrect");
       }
     }
-  }, [isAuthenticated, navigate, loginFailed, msg]);
+  }, [isAuthenticated, navigate, loginFailed, msg, isStaff]);
 
   const HandleChange = (event) => {
     const name = event.target.name;
@@ -163,6 +167,7 @@ const Login = ({ login, isAuthenticated, loginFailed }) => {
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
   loginFailed: state.auth.failed,
+  isStaff: state.auth.isStaff,
 });
 
 export default connect(mapStateToProps, { login })(Login);
