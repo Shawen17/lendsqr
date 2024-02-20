@@ -210,20 +210,20 @@ export const UserContainer = styled.div`
   padding: 10px;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
 `;
 
 export const Left = styled.div`
   display: flex;
   flex-direction: column;
-  flex: 28%;
+  flex: 25%;
   align-items: flex-start;
   justify-content: flex-start;
 `;
 
 export const Right = styled.div`
   display: flex;
-  flex: 68%;
+  flex: 70%;
   align-items: center;
   justify-content: center;
 `;

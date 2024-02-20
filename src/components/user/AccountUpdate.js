@@ -1,11 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  banks,
-  sectors,
-  relationships,
-  mergeFields,
-} from "../../components/utility/AdminAction";
-import { useNavigate } from "react-router-dom";
+import { sectors, mergeFields } from "../../components/utility/AdminAction";
 import { Form } from "reactstrap";
 import axios from "axios";
 import {
@@ -20,25 +14,44 @@ import {
   Select,
   Box,
   MiniContainer,
-  Back,
 } from "../../components/Styled";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+
 import { motion } from "framer-motion";
 import { get_portfolio } from "../../action/auth";
+import { connect } from "react-redux";
 
 const AccountUpdate = ({ get_portfolio, user }) => {
   document.title = "update your profile";
-  const navigate = useNavigate();
   const [error, setError] = useState("");
   const [inputs, setInputs] = useState({});
   const [msg, setMsg] = useState("");
   const [updated, setUpdated] = useState(false);
+  const [data, setData] = useState({
+    _id: 0,
+    profile: {
+      firstName: "",
+      lastName: "",
+      phoneNumber: "",
+      email: "",
+      userName: "",
+      bvn: 0,
+      address: "",
+    },
+    education: { level: "" },
+    socials: { facebook: "", twitter: "", instagram: "" },
+    organization: {
+      orgName: "",
+      orgNumber: "",
+      officeEmail: "",
+      employmentStatus: "",
+      sector: "",
+      duration: "",
+    },
+  });
 
-  useEffect(() => {}, [updated]);
-
-  const Handleback = () => {
-    navigate(-1);
-  };
+  useEffect(() => {
+    setData(user);
+  }, [updated, user]);
 
   const handleChange = (event) => {
     setError("");
@@ -112,9 +125,9 @@ const AccountUpdate = ({ get_portfolio, user }) => {
       if (minimumIncome && maximumIncome) {
         monthlyIncome = [minimumIncome, maximumIncome];
       } else if (minimumIncome) {
-        monthlyIncome = [minimumIncome, user.account.monthlyIncome[1]];
+        monthlyIncome = [minimumIncome, data.account.monthlyIncome[1]];
       } else if (maximumIncome) {
-        monthlyIncome = [user.account.monthlyIncome[0], maximumIncome];
+        monthlyIncome = [data.account.monthlyIncome[0], maximumIncome];
       }
       var account = { ...partAccount, monthlyIncome: monthlyIncome };
       body.append("account", JSON.stringify(account));
@@ -150,9 +163,9 @@ const AccountUpdate = ({ get_portfolio, user }) => {
         )
         .then((response) => response)
         .catch((error) => setError(error));
-      get_portfolio(user.profile.email);
+      get_portfolio(data.profile.email);
       setUpdated(!updated);
-      setMsg("User updated successfully");
+      setMsg("Details Updated successfully");
     } catch (error) {
       setError(error);
     }
@@ -177,11 +190,8 @@ const AccountUpdate = ({ get_portfolio, user }) => {
         damping: 20,
       }}
     >
-      <Container>
-        <Title>Update User Profile</Title>
-        <Back>
-          <ArrowBackIcon onClick={() => Handleback()} />
-        </Back>
+      <Container style={{ padding: 5, alignItems: "flex-start", margin: 0 }}>
+        <Title style={{ marginBottom: 10 }}>Update Your Profile</Title>
         <p style={{ color: "red" }}>{error}</p>
         <p>{msg}</p>
         <FormDisplay>
@@ -200,7 +210,7 @@ const AccountUpdate = ({ get_portfolio, user }) => {
                       placeholder="first name"
                       type="text"
                       name="firstName"
-                      value={user.profile.firstName}
+                      defaultValue={data.profile.firstName}
                       readOnly
                     />
                   </SearchContainer>
@@ -212,8 +222,8 @@ const AccountUpdate = ({ get_portfolio, user }) => {
                       placeholder="last name"
                       type="text"
                       name="lastName"
-                      value={inputs.lastName || user.profile.lastName}
-                      onChange={handleChange}
+                      defaultValue={data.profile.lastName}
+                      readOnly
                     />
                   </SearchContainer>
                 </Box>
@@ -224,8 +234,7 @@ const AccountUpdate = ({ get_portfolio, user }) => {
                       placeholder="email"
                       type="email"
                       name="email"
-                      value={user.profile.email}
-                      onChange={handleChange}
+                      defaultValue={data.profile.email}
                       readOnly
                     />
                   </SearchContainer>
@@ -237,7 +246,8 @@ const AccountUpdate = ({ get_portfolio, user }) => {
                       placeholder="Username"
                       type="text"
                       name="userName"
-                      value={inputs.userName}
+                      defaultValue={inputs.userName || data.profile.userName}
+                      readOnly
                     />
                   </SearchContainer>
                 </Box>
@@ -248,8 +258,8 @@ const AccountUpdate = ({ get_portfolio, user }) => {
                       placeholder="phone number"
                       type="text"
                       name="phoneNumber"
-                      value={inputs.phoneNumber || user.profile.phoneNumber}
-                      onChange={handleChange}
+                      defaultValue={data.profile.phoneNumber}
+                      readOnly
                     />
                   </SearchContainer>
                 </Box>
@@ -264,22 +274,7 @@ const AccountUpdate = ({ get_portfolio, user }) => {
                     />
                   </SearchContainer>
                 </Box>
-                <Box>
-                  <Label htmlFor="gender">Gender</Label>
-                  <SearchContainer>
-                    <Select
-                      name="gender"
-                      value={inputs.gender || user.profile.gender}
-                      onChange={handleChange}
-                    >
-                      <option value="others"></option>
-                      <option style={{ fontSize: 14 }} value="male">
-                        Male
-                      </option>
-                      <option value="female">Female</option>
-                    </Select>
-                  </SearchContainer>
-                </Box>
+
                 <Box>
                   <Label htmlFor="address">Address</Label>
                   <SearchContainer>
@@ -287,8 +282,8 @@ const AccountUpdate = ({ get_portfolio, user }) => {
                       placeholder="Home Address"
                       type="text"
                       name="address"
-                      value={inputs.address || user.profile.address}
-                      onChange={handleChange}
+                      defaultValue={data.profile.address}
+                      readOnly
                     />
                   </SearchContainer>
                 </Box>
@@ -297,7 +292,7 @@ const AccountUpdate = ({ get_portfolio, user }) => {
                   <SearchContainer>
                     <Select
                       name="level"
-                      value={inputs.level || user.education.level}
+                      value={inputs.level || data.education.level}
                       onChange={handleChange}
                     >
                       <option value="others"></option>
@@ -317,42 +312,14 @@ const AccountUpdate = ({ get_portfolio, user }) => {
             <Wrapper>
               <MiniContainer>
                 <Box>
-                  <Label htmlFor="accountNumber">Bank Account</Label>
-                  <SearchContainer>
-                    <Input
-                      placeholder="Account Number"
-                      type="number"
-                      name="accountNumber"
-                      value={inputs.accountNumber || user.account.accountNumber}
-                      onChange={handleChange}
-                    />
-                  </SearchContainer>
-                </Box>
-                <Box>
-                  <Label htmlFor="bank">Bank</Label>
-                  <SearchContainer>
-                    <Select
-                      name="bank"
-                      value={inputs.bank || user.account.bank}
-                      onChange={handleChange}
-                    >
-                      {banks.map((bank) => (
-                        <option key={bank.id} value={bank.name}>
-                          {bank.name}
-                        </option>
-                      ))}
-                    </Select>
-                  </SearchContainer>
-                </Box>
-
-                <Box>
                   <Label htmlFor="bvn">BVN</Label>
                   <SearchContainer>
                     <Input
                       placeholder="BVN"
                       type="number"
                       name="bvn"
-                      value={inputs.bvn || user.profile.bvn}
+                      defaultValue={data.profile.bvn}
+                      readOnly
                     />
                   </SearchContainer>
                 </Box>
@@ -365,9 +332,7 @@ const AccountUpdate = ({ get_portfolio, user }) => {
                       type="number"
                       step="0.01"
                       name="minimumIncome"
-                      value={
-                        inputs.minimumIncome || user.account.monthlyIncome[0]
-                      }
+                      value={inputs.minimumIncome}
                       onChange={handleChange}
                     />
                   </SearchContainer>
@@ -380,9 +345,7 @@ const AccountUpdate = ({ get_portfolio, user }) => {
                       type="number"
                       step="0.01"
                       name="maximumIncome"
-                      value={
-                        inputs.maximumIncome || user.account.monthlyIncome[1]
-                      }
+                      value={inputs.maximumIncome}
                       onChange={handleChange}
                     />
                   </SearchContainer>
@@ -399,8 +362,8 @@ const AccountUpdate = ({ get_portfolio, user }) => {
                       placeholder="Name of your Organization"
                       type="text"
                       name="orgName"
-                      value={inputs.orgName || user.organization.orgName}
-                      onChange={handleChange}
+                      defaultValue={data.organization.orgName}
+                      readOnly
                     />
                   </SearchContainer>
                 </Box>
@@ -411,8 +374,8 @@ const AccountUpdate = ({ get_portfolio, user }) => {
                       placeholder="Organization Number"
                       type="text"
                       name="orgNumber"
-                      value={inputs.orgNumber || user.organization.orgNumber}
-                      onChange={handleChange}
+                      defaultValue={data.organization.orgNumber}
+                      readOnly
                     />
                   </SearchContainer>
                 </Box>
@@ -423,10 +386,8 @@ const AccountUpdate = ({ get_portfolio, user }) => {
                       placeholder="Organization Email"
                       type="email"
                       name="officeEmail"
-                      value={
-                        inputs.officeEmail || user.organization.officeEmail
-                      }
-                      onChange={handleChange}
+                      defaultValue={data.organization.officeEmail}
+                      readOnly
                     />
                   </SearchContainer>
                 </Box>
@@ -438,7 +399,7 @@ const AccountUpdate = ({ get_portfolio, user }) => {
                       name="employmentStatus"
                       value={
                         inputs.employmentStatus ||
-                        user.organization.employmentStatus
+                        data.organization.employmentStatus
                       }
                       onChange={handleChange}
                     >
@@ -455,7 +416,7 @@ const AccountUpdate = ({ get_portfolio, user }) => {
                   <SearchContainer>
                     <Select
                       name="sector"
-                      value={inputs.sector || user.organization.sector}
+                      value={inputs.sector || data.organization.sector}
                       onChange={handleChange}
                     >
                       {sectors.map((sector) => (
@@ -473,7 +434,7 @@ const AccountUpdate = ({ get_portfolio, user }) => {
                       placeholder="e.g 2 Years"
                       type="text"
                       name="duration"
-                      value={inputs.duration || user.organization.duration}
+                      value={inputs.duration || data.organization.duration}
                       onChange={handleChange}
                     />
                   </SearchContainer>
@@ -491,7 +452,7 @@ const AccountUpdate = ({ get_portfolio, user }) => {
                       placeholder="facebook"
                       type="text"
                       name="facebook"
-                      value={inputs.facebook || user.socials.facebook}
+                      value={inputs.facebook || data.socials.facebook}
                       onChange={handleChange}
                     />
                   </SearchContainer>
@@ -503,7 +464,7 @@ const AccountUpdate = ({ get_portfolio, user }) => {
                       placeholder="Instagram handle"
                       type="text"
                       name="instagram"
-                      value={inputs.instagram || user.socials.instagram}
+                      value={inputs.instagram || data.socials.instagram}
                       onChange={handleChange}
                     />
                   </SearchContainer>
@@ -515,7 +476,7 @@ const AccountUpdate = ({ get_portfolio, user }) => {
                       placeholder="X handle"
                       type="text"
                       name="twitter"
-                      value={inputs.twitter || user.socials.twitter}
+                      value={inputs.twitter || data.socials.twitter}
                       onChange={handleChange}
                     />
                   </SearchContainer>
@@ -532,7 +493,7 @@ const AccountUpdate = ({ get_portfolio, user }) => {
 };
 
 const mapStateToProps = (state) => ({
-  user: state.auth.portfolio,
+  user: state.auth && state.auth.portfolio ? state.auth.portfolio : "",
 });
 
 export default connect(mapStateToProps, { get_portfolio })(AccountUpdate);

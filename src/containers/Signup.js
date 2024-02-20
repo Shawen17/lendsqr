@@ -15,11 +15,9 @@ import { useState, useEffect } from "react";
 import { provinces } from "../components/utility/AdminAction";
 import { Link, useNavigate } from "react-router-dom";
 import { Form } from "reactstrap";
-import { signup } from "../action/auth";
-import { connect } from "react-redux";
 import { motion } from "framer-motion";
 
-const Signup = ({ isAuthenticated, signup }) => {
+const Signup = () => {
   document.title = "signup";
   const navigate = useNavigate();
   const [inputs, setInputs] = useState({});
@@ -40,7 +38,16 @@ const Signup = ({ isAuthenticated, signup }) => {
     const password = inputs.password;
     const re_password = inputs.re_password;
     if (password === re_password) {
-      signup(email, first_name, last_name, state, password, re_password);
+      navigate("/profile-form", {
+        state: {
+          email: email,
+          state: state,
+          first_name: first_name,
+          last_name: last_name,
+          password: password,
+          re_password: re_password,
+        },
+      });
     } else {
       setError("password does not match");
     }
@@ -55,10 +62,7 @@ const Signup = ({ isAuthenticated, signup }) => {
         setError("password does not match");
       }
     }
-    if (isAuthenticated) {
-      navigate("/", { state: "proceed to login" });
-    }
-  }, [isAuthenticated, inputs, navigate]);
+  }, [inputs]);
 
   return (
     <motion.div
@@ -187,8 +191,4 @@ const Signup = ({ isAuthenticated, signup }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated,
-});
-
-export default connect(mapStateToProps, { signup })(Signup);
+export default Signup;

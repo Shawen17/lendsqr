@@ -12,6 +12,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import ResetPassword from "./containers/ResetPassword";
 import ResetPasswordConfirm from "./containers/ResetPasswordConfirm";
 import UserDashboard from "./containers/UserDashboard";
+import ProfileForm from "./components/user/ProfileForm";
 import AuthUserRoute from "./components/AuthUserRoute";
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
           <Route path="/" exact element={<Login />} />
           <Route path="/signup" exact element={<Signup />} />
           <Route path="/reset-password" exact element={<ResetPassword />} />
+          <Route path="/profile-form" exact element={<ProfileForm />} />
 
           <Route
             path="/password/reset/confirm/:uid/:token"

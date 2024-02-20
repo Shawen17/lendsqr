@@ -17,9 +17,9 @@ const Container = styled.div`
 export const Brand = styled.div`
   display: flex;
   width: 100%;
-  margin-bottom: 30px;
+
   justify-content: flex-start;
-  align-items: left;
+  align-items: center;
   cursor: pointer;
 `;
 

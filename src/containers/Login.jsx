@@ -32,15 +32,16 @@ const Login = ({ login, isStaff, isAuthenticated, loginFailed }) => {
   useEffect(() => {
     if (isAuthenticated) {
       if (msg === "Enter details to login") {
-        if (isStaff) {
-          navigate("/dashboard");
-        } else {
-          navigate("/user-dashboard");
-        }
+        setTimeout(() => {
+          if (isStaff) {
+            navigate("/dashboard");
+          } else {
+            navigate("/user-dashboard");
+          }
+        }, 3000);
       }
-      if (loginFailed) {
-        setError("email or password incorrect");
-      }
+    } else if (loginFailed) {
+      setError("email or password incorrect");
     }
   }, [isAuthenticated, navigate, loginFailed, msg, isStaff]);
 

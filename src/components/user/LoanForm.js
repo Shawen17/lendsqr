@@ -7,7 +7,7 @@ import {
   HorizontalLine,
 } from "../menu/StyledMenu";
 
-const LoanHistory = () => {
+const LoanForm = () => {
   return (
     <Details>
       <p
@@ -19,11 +19,11 @@ const LoanHistory = () => {
           margin: "20px 20px",
         }}
       >
-        All Loans
+        New Loan Application
       </p>
       <InfoWrapper>
         <PersonalInfo>
-          <Header>All Loan Applications</Header>
+          <Header>New Loan</Header>
           <HeaderValue>Coming soon</HeaderValue>
         </PersonalInfo>
       </InfoWrapper>
@@ -32,4 +32,4 @@ const LoanHistory = () => {
   );
 };
 
-export default LoanHistory;
+export default LoanForm;

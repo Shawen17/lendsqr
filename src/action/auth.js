@@ -153,7 +153,6 @@ export const signup =
         type: SIGNUP_SUCCESS,
         payload: res.data,
       });
-      dispatch(add_portfolio(email, first_name, last_name));
     } catch (err) {
       dispatch({
         type: SIGNUP_FAIL,
@@ -161,30 +160,29 @@ export const signup =
     }
   };
 
-export const add_portfolio =
-  (email, first_name, last_name) => async (dispatch) => {
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    };
-    const body = JSON.stringify({ email, first_name, last_name });
-    try {
-      await axios.post(
-        `${process.env.REACT_APP_LENDSQR_API_URL}/api/add-staff-portfolio/`,
-        body,
-        config
-      );
-      dispatch({
-        type: ADD_USER_TO_PORTFOLIO_SUCCESS,
-      });
-    } catch (err) {
-      dispatch({
-        type: ADD_USER_TO_PORTFOLIO_FAIL,
-      });
-    }
+export const add_portfolio = (data) => async (dispatch) => {
+  const config = {
+    headers: {
+      "Content-Type": "multipart/form-data",
+      Accept: "application/json",
+    },
   };
+
+  try {
+    await axios.post(
+      `${process.env.REACT_APP_LENDSQR_API_URL}/api/add-staff-portfolio/`,
+      data,
+      config
+    );
+    dispatch({
+      type: ADD_USER_TO_PORTFOLIO_SUCCESS,
+    });
+  } catch (err) {
+    dispatch({
+      type: ADD_USER_TO_PORTFOLIO_FAIL,
+    });
+  }
+};
 
 export const get_portfolio = (email) => async (dispatch) => {
   if (localStorage.getItem("access")) {
