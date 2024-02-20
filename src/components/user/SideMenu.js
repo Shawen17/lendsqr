@@ -13,34 +13,34 @@ const Line = styled.div`
   background-color: white;
 `;
 
+const Tp = styled.div`
+  display: flex;
+  width: 200px;
+  justify-content: flex-start;
+  align-items: flex-start;
+  font-family: "Bricolage Grotesque", sans-serif;
+`;
+
+const Info = styled.div`
+  display: block;
+  margin-left: 20px;
+  font-size: 13px;
+  font-family: "Bricolage Grotesque", sans-serif;
+`;
+
 const Top = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  width: 200px;
   cursor: pointer;
 
   &:hover {
     background-color: rgba(0, 0, 0, 0.54);
     color: #126180;
     border-radius: 6px;
-    transform: scale(1.2);
-    transition: 1s ease-out;
+    transform: scale(1.01);
+    transition: 0.5s ease-in-out;
   }
-`;
-
-const Tp = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  width: 200px;
-  font-family: "Bricolage Grotesque", sans-serif;
-`;
-
-const Info = styled.div`
-  margin-left: 20px;
-  font-size: 13px;
-  font-family: "Bricolage Grotesque", sans-serif;
 `;
 
 const Container = styled.div`
@@ -50,20 +50,39 @@ const Container = styled.div`
   justify-content: flex-start;
   padding: 20px 10px 20px 10px;
   border-radius: 8px;
-
   background: rgba(0, 0, 0, 0.12);
 
-  @media screen and (max-width: 482px) {
-    padding: 20px 5px 20px 5px;
+  @media screen and (max-width: 568px) {
+    padding: 20px 2px 20px 2px;
+    width: 100px;
 
-    ${Top} {
-      width: 130px;
-    }
-    ${Tp} {
-      width: 130px;
+    ${Info} {
+      display: none;
     }
     ${Line} {
-      width: 120px;
+      width: 100%;
+    }
+
+    ${Tp} {
+      display: none;
+      width: 0px;
+    }
+
+    &:hover {
+      width: 100%;
+
+      ${Info} {
+        display: flex;
+      }
+
+      ${Tp} {
+        display: flex;
+        width: 100%;
+      }
+
+      ${Line} {
+        width: 120px;
+      }
     }
   }
 `;

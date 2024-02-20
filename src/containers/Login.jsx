@@ -77,12 +77,12 @@ const Login = ({ login, isStaff, isAuthenticated, loginFailed }) => {
         <Brand>
           <BrandLogo>
             <img
-              src="/static/icons/lendsqr.jpg"
+              src="/static/icons/brandlogo.jpg"
               alt="logo"
               style={{ height: 50, width: 50 }}
             />
           </BrandLogo>
-          <BrandName>lendsqr</BrandName>
+          <BrandName>boomer</BrandName>
         </Brand>
         <Item>
           <Left>

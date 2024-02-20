@@ -220,6 +220,7 @@ const NavBar = (props) => {
         <Navlink>
           <Link to="/">Docs</Link>
           <NotificationsOutlined
+            className="notify"
             style={{ height: 40, width: 40, marginRight: "6px" }}
           />
           <ProfilePicture

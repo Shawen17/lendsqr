@@ -215,8 +215,8 @@ export const UserContainer = styled.div`
 
 export const Left = styled.div`
   display: flex;
-  flex-direction: column;
   flex: 25%;
+  flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
 `;
@@ -224,6 +224,6 @@ export const Left = styled.div`
 export const Right = styled.div`
   display: flex;
   flex: 70%;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
+  justify-content: flex-start;
 `;

@@ -25,12 +25,12 @@ const TopBar = () => {
       >
         <BrandLogo>
           <img
-            src="/static/icons/lendsqr.jpg"
+            src="/static/icons/brandlogo.jpg"
             style={{ height: 50, width: 50 }}
             alt="brandlogo"
           />
         </BrandLogo>
-        <BrandName>lendsqr</BrandName>
+        <BrandName>boomer</BrandName>
       </Brand>
       <NavMenu />
     </TopWrapper>

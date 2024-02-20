@@ -308,9 +308,6 @@ td {
     margin: 30px 20px 0px 0px;
     align-items: flex-end;
     justify-content: flex-end;
-    /* position: absolute;
-    top: 10px;
-    width: 100%; */
   }
 
   .sidebar-appear {
@@ -386,4 +383,29 @@ td {
   height: 20%;
   opacity: 1;
   cursor: pointer;
+}
+
+.notify:hover{
+cursor:pointer;
+
+animation: notice-spin infinite 1s linear;
+
+}
+
+@keyframes notice-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(45deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+  75% {
+    transform: rotate(-45deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
 }

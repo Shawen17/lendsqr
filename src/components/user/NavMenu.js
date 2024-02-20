@@ -156,7 +156,8 @@ const NavMenu = (props) => {
       <TopMenu>
         <Navlink>
           <NotificationsOutlined
-            style={{ height: 40, width: 40, marginRight: "6px" }}
+            className="notify"
+            style={{ height: 30, width: 30, marginRight: 20 }}
           />
           <ProfilePicture
             currentPicture={profilePicture}
@@ -188,7 +189,7 @@ const NavMenu = (props) => {
 const mapStateToProps = (state) => {
   if (state.auth.user) {
     return {
-      user: state.auth.user.first_name,
+      user: state.auth.portfolio.userName,
       details: state.auth.portfolio,
     };
   } else {
