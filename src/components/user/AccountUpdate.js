@@ -15,13 +15,14 @@ import {
   Box,
   MiniContainer,
 } from "../../components/Styled";
-
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { get_portfolio } from "../../action/auth";
 import { connect } from "react-redux";
 
 const AccountUpdate = ({ get_portfolio, user }) => {
   document.title = "update your profile";
+  const navigate = useNavigate();
   const [error, setError] = useState("");
   const [inputs, setInputs] = useState({});
   const [msg, setMsg] = useState("");
@@ -97,13 +98,7 @@ const AccountUpdate = ({ get_portfolio, user }) => {
     "duration",
     "officeEmail",
   ];
-  const accountKeys = [
-    "accountName",
-    "accountBalance",
-    "loanRepayment",
-    "accountNumber",
-    "bank",
-  ];
+
   const educationKeys = ["level"];
   const socialsKeys = ["facebook", "twitter", "instagram"];
 
@@ -116,22 +111,6 @@ const AccountUpdate = ({ get_portfolio, user }) => {
     const socials = mergeFields(inputs, socialsKeys);
     const education = mergeFields(inputs, educationKeys);
     const organization = mergeFields(inputs, organizationKeys);
-    const partAccount = mergeFields(inputs, accountKeys);
-
-    const minimumIncome = inputs.minimumIncome;
-    const maximumIncome = inputs.maximumIncome;
-    var monthlyIncome;
-    if (minimumIncome || maximumIncome) {
-      if (minimumIncome && maximumIncome) {
-        monthlyIncome = [minimumIncome, maximumIncome];
-      } else if (minimumIncome) {
-        monthlyIncome = [minimumIncome, data.account.monthlyIncome[1]];
-      } else if (maximumIncome) {
-        monthlyIncome = [data.account.monthlyIncome[0], maximumIncome];
-      }
-      var account = { ...partAccount, monthlyIncome: monthlyIncome };
-      body.append("account", JSON.stringify(account));
-    }
 
     inputs.avatar && body.append("avatar", inputs.avatar);
     Object.keys(organization).length > 0 &&
@@ -162,12 +141,18 @@ const AccountUpdate = ({ get_portfolio, user }) => {
           config
         )
         .then((response) => response)
-        .catch((error) => setError(error));
+        .catch((error) => {
+          setError(error);
+        });
       get_portfolio(data.profile.email);
       setUpdated(!updated);
       setMsg("Details Updated successfully");
     } catch (error) {
-      setError(error);
+      if (error.response && error.response.status === 401) {
+        navigate("/");
+      } else {
+        setError("Error occurred but no response was received:", error);
+      }
     }
 
     window.scrollTo({
@@ -246,8 +231,8 @@ const AccountUpdate = ({ get_portfolio, user }) => {
                       placeholder="Username"
                       type="text"
                       name="userName"
-                      defaultValue={inputs.userName || data.profile.userName}
-                      readOnly
+                      value={inputs.userName || data.profile.userName}
+                      onChange={handleChange}
                     />
                   </SearchContainer>
                 </Box>
@@ -320,33 +305,6 @@ const AccountUpdate = ({ get_portfolio, user }) => {
                       name="bvn"
                       defaultValue={data.profile.bvn}
                       readOnly
-                    />
-                  </SearchContainer>
-                </Box>
-
-                <Box>
-                  <Label htmlFor="minimumIncome">Minimum Income</Label>
-                  <SearchContainer>
-                    <Input
-                      placeholder="Minimum Income"
-                      type="number"
-                      step="0.01"
-                      name="minimumIncome"
-                      value={inputs.minimumIncome}
-                      onChange={handleChange}
-                    />
-                  </SearchContainer>
-                </Box>
-                <Box>
-                  <Label htmlFor="maximumIncome">Maximun Income</Label>
-                  <SearchContainer>
-                    <Input
-                      placeholder="Maximum Income"
-                      type="number"
-                      step="0.01"
-                      name="maximumIncome"
-                      value={inputs.maximumIncome}
-                      onChange={handleChange}
                     />
                   </SearchContainer>
                 </Box>

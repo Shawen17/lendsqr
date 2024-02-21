@@ -58,7 +58,6 @@ const AddUserForm = () => {
     "gender",
     "bvn",
     "address",
-    "currency",
     "email",
     "userName",
     "status",

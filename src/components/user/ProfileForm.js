@@ -75,6 +75,7 @@ const ProfileForm = ({ signup, isAuthenticated, add_portfolio }) => {
       email: user.email,
       firstName: user.first_name,
       lastName: user.last_name,
+      status: "Inactive",
     };
     const socials = mergeFields(inputs, socialsKeys);
     const education = mergeFields(inputs, educationKeys);

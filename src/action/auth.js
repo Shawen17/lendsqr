@@ -18,6 +18,8 @@ import {
   ADD_USER_TO_PORTFOLIO_FAIL,
   PORTFOLIO_RETRIVAL_SUCCESS,
   PORTFOLIO_RETRIVAL_FAIL,
+  PORTFOLIO_UPDATE_SUCCESS,
+  PORTFOLIO_UPDATE_FAIL,
 } from "./types";
 import axios from "axios";
 
@@ -180,6 +182,37 @@ export const add_portfolio = (data) => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: ADD_USER_TO_PORTFOLIO_FAIL,
+    });
+  }
+};
+
+export const update_portfolio = (data) => async (dispatch) => {
+  if (localStorage.getItem("access")) {
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `JWT ${localStorage.getItem("access")}`,
+        Accept: "application/json",
+      },
+    };
+
+    try {
+      await axios.put(
+        `${process.env.REACT_APP_LENDSQR_API_URL}/api/users/`,
+        data,
+        config
+      );
+      dispatch({
+        type: PORTFOLIO_UPDATE_SUCCESS,
+      });
+    } catch (err) {
+      dispatch({
+        type: PORTFOLIO_UPDATE_FAIL,
+      });
+    }
+  } else {
+    dispatch({
+      type: PORTFOLIO_UPDATE_FAIL,
     });
   }
 };

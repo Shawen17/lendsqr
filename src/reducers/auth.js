@@ -18,6 +18,8 @@ import {
   ADD_USER_TO_PORTFOLIO_FAIL,
   PORTFOLIO_RETRIVAL_FAIL,
   PORTFOLIO_RETRIVAL_SUCCESS,
+  PORTFOLIO_UPDATE_SUCCESS,
+  PORTFOLIO_UPDATE_FAIL,
 } from "../action/types";
 
 const initialState = {
@@ -29,6 +31,7 @@ const initialState = {
   isStaff: false,
   portfolioAdded: false,
   portfolio: null,
+  portfolioUpdated: false,
 };
 
 export default function foo(state = initialState, action) {
@@ -100,6 +103,15 @@ export default function foo(state = initialState, action) {
         portfolio: payload,
       };
     case PORTFOLIO_RETRIVAL_FAIL:
+      return {
+        ...state,
+      };
+    case PORTFOLIO_UPDATE_SUCCESS:
+      return {
+        ...state,
+        portfolioUpdated: true,
+      };
+    case PORTFOLIO_UPDATE_FAIL:
       return {
         ...state,
       };

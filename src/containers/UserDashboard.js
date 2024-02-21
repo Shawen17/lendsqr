@@ -8,14 +8,26 @@ import CreditScoreIcon from "@mui/icons-material/CreditScore";
 import WorkHistoryIcon from "@mui/icons-material/WorkHistory";
 import SettingsIcon from "@mui/icons-material/Settings";
 import TopBar from "../components/user/TopBar";
+import { connect } from "react-redux";
+import { update_portfolio } from "../action/auth";
 
-const data = [
-  { id: 1, icon: <CreditScoreIcon />, title: "Apply", comp: LoanForm() },
-  { id: 2, icon: <WorkHistoryIcon />, title: "History", comp: LoanHistory() },
-  { id: 3, icon: <SettingsIcon />, title: "Account", comp: <AccountUpdate /> },
-];
+const UserDashboard = ({ user, update_portfolio }) => {
+  const data = [
+    {
+      id: 1,
+      icon: <CreditScoreIcon />,
+      title: "Apply",
+      comp: <LoanForm user={user} update_portfolio={update_portfolio} />,
+    },
+    { id: 2, icon: <WorkHistoryIcon />, title: "History", comp: LoanHistory() },
+    {
+      id: 3,
+      icon: <SettingsIcon />,
+      title: "Account",
+      comp: <AccountUpdate />,
+    },
+  ];
 
-const UserDashboard = () => {
   const [sliderdata, setSliderdata] = useState(data[0].comp);
 
   const onMenuChange = (index) => {
@@ -36,4 +48,8 @@ const UserDashboard = () => {
   );
 };
 
-export default UserDashboard;
+const mapStateToProps = (state) => ({
+  user: state.auth.portfolio,
+});
+
+export default connect(mapStateToProps, { update_portfolio })(UserDashboard);
