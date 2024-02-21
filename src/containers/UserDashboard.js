@@ -19,7 +19,12 @@ const UserDashboard = ({ user, update_portfolio }) => {
       title: "Apply",
       comp: <LoanForm user={user} update_portfolio={update_portfolio} />,
     },
-    { id: 2, icon: <WorkHistoryIcon />, title: "History", comp: LoanHistory() },
+    {
+      id: 2,
+      icon: <WorkHistoryIcon />,
+      title: "History",
+      comp: <LoanHistory user={user} />,
+    },
     {
       id: 3,
       icon: <SettingsIcon />,

@@ -16,7 +16,11 @@ const ProfilePicture = ({ currentPicture, onPictureChange }) => {
   return (
     <div className="profile-picture">
       {isEditing ? (
-        <input type="file" onChange={handleFileChange} />
+        <input
+          type="file"
+          accept="image/png, image/jpeg, image/jpg"
+          onChange={handleFileChange}
+        />
       ) : (
         <img src={currentPicture} alt="Profile" onClick={handlePictureClick} />
       )}

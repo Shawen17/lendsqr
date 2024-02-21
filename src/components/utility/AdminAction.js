@@ -1,5 +1,6 @@
 export const StatusUpdate = async (action, status, id) => {
   var result;
+
   if (status === "blacklist") {
     result = "Blacklisted";
   } else if (status === "activate") {

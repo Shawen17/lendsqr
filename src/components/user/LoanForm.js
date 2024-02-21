@@ -22,8 +22,10 @@ import {
   Box,
   MiniContainer,
 } from "../../components/Styled";
+import { useNavigate } from "react-router-dom";
 
 const LoanForm = ({ user, update_portfolio }) => {
+  const navigate = useNavigate();
   document.title = "new loan";
   const [error, setError] = useState("");
   const [inputs, setInputs] = useState({});
@@ -35,7 +37,23 @@ const LoanForm = ({ user, update_portfolio }) => {
 
     const { name, value } = event.target;
 
-    setInputs({ ...inputs, [name]: value });
+    setInputs((prevInputs) => ({
+      ...prevInputs,
+      [name]: value,
+    }));
+
+    if (name === "amount" || name === "duration") {
+      const repayment = calculateLoanRepayment(
+        inputs.amount || 0,
+        15,
+        inputs.duration || 0
+      );
+
+      setInputs((prevInputs) => ({
+        ...prevInputs,
+        loanRepayment: repayment,
+      }));
+    }
   };
 
   const profileKeys = ["bvn", "currency"];
@@ -62,6 +80,7 @@ const LoanForm = ({ user, update_portfolio }) => {
     "accountNumber",
     "duration",
     "bank",
+    "amount",
   ];
 
   const calculateLoanRepayment = (loanAmount, interestRate, months) => {
@@ -130,6 +149,8 @@ const LoanForm = ({ user, update_portfolio }) => {
         setError(
           "Cannot make a new loan request while you have an active loan."
         );
+      } else if (error.response.status === 401) {
+        navigate("/");
       } else {
         setError("An error occurred. Please try again later.");
       }
