@@ -1,7 +1,7 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./containers/Login";
-import Dashbaord from "./containers/Dashboard";
+import Dashboard from "./containers/Dashboard";
 import UserDetails from "./containers/UserDetails";
 import AddUserForm from "./containers/AddUserForm";
 import UpdateUserForm from "./containers/UpdateUserForm";
@@ -42,7 +42,7 @@ function App() {
             path="/dashboard"
             element={
               <ProtectedRoute>
-                <Dashbaord />
+                <Dashboard />
               </ProtectedRoute>
             }
           />

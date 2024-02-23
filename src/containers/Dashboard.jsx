@@ -91,7 +91,7 @@ const StatNum = styled.h5`
 
 let PageSize = 20;
 
-const Dashbaord = () => {
+const Dashboard = () => {
   window.title = "Dashboard";
   const [searchValue, setSearchValue] = useState([]);
   const [page, setPage] = useState(1);
@@ -261,4 +261,4 @@ const Dashbaord = () => {
   );
 };
 
-export default Dashbaord;
+export default Dashboard;
