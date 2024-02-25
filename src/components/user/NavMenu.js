@@ -167,7 +167,7 @@ const NavMenu = (props) => {
 
         <DropDownContainer>
           <div className="sidebar-link nav" onClick={handleDropDown}>
-            {props.details.profile.userName}
+            {props.user}
             <span>
               {" "}
               <KeyboardArrowDownOutlined />{" "}
@@ -189,7 +189,7 @@ const NavMenu = (props) => {
 const mapStateToProps = (state) => {
   if (state.auth.user) {
     return {
-      user: state.auth.portfolio.userName,
+      user: state.auth.user.first_name,
       details: state.auth.portfolio,
     };
   } else {
