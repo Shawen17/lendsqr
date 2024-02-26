@@ -20,6 +20,7 @@ import {
   PORTFOLIO_RETRIVAL_SUCCESS,
   PORTFOLIO_UPDATE_SUCCESS,
   PORTFOLIO_UPDATE_FAIL,
+  RESET_DONE,
 } from "../action/types";
 
 const initialState = {
@@ -114,6 +115,12 @@ export default function foo(state = initialState, action) {
     case PORTFOLIO_UPDATE_FAIL:
       return {
         ...state,
+      };
+
+    case RESET_DONE:
+      return {
+        ...state,
+        failed: false,
       };
 
     case LOGIN_FAIL:

@@ -9,7 +9,6 @@ import {
   SearchContainer,
   Left,
   Right,
-  Form,
   Input,
   Art,
   Desc,
@@ -17,9 +16,11 @@ import {
 import { Outline } from "../components/Styled";
 import { motion } from "framer-motion";
 import { connect } from "react-redux";
-import { login } from "../action/auth";
+import { login, reset } from "../action/auth";
+import Loading from "../components/Loading";
+import { Form } from "reactstrap";
 
-const Login = ({ login, isStaff, isAuthenticated, loginFailed }) => {
+const Login = ({ reset, login, isStaff, isAuthenticated, loginFailed }) => {
   window.title = "login";
   const location = useLocation();
   const signupMsg = location.state ? location.state : "Enter details to login";
@@ -28,9 +29,11 @@ const Login = ({ login, isStaff, isAuthenticated, loginFailed }) => {
   const [clicked, setClicked] = useState(false);
   const [error, setError] = useState("");
   const [msg, setMsg] = useState(signupMsg);
+  const [modalOn, setModalOn] = useState(false);
 
   useEffect(() => {
     if (isAuthenticated) {
+      setModalOn(false);
       if (msg === "Enter details to login") {
         setTimeout(() => {
           if (isStaff) {
@@ -38,14 +41,16 @@ const Login = ({ login, isStaff, isAuthenticated, loginFailed }) => {
           } else {
             navigate("/user-dashboard");
           }
-        }, 3000);
+        }, 2000);
       }
     } else if (loginFailed) {
+      setModalOn(false);
       setError("email or password incorrect");
     }
   }, [isAuthenticated, navigate, loginFailed, msg, isStaff]);
 
   const HandleChange = (event) => {
+    setError("");
     const name = event.target.name;
     const value = event.target.value;
     setValues((values) => ({ ...values, [name]: value.trim() }));
@@ -55,8 +60,10 @@ const Login = ({ login, isStaff, isAuthenticated, loginFailed }) => {
     setClicked(!clicked);
   };
 
-  const HandleSubmit = (e) => {
+  const HandleSubmit = async (e) => {
     e.preventDefault();
+    reset();
+    setModalOn(true);
     const email = inputValues.email;
     const password = inputValues.password;
     setMsg("Enter details to login");
@@ -99,6 +106,7 @@ const Login = ({ login, isStaff, isAuthenticated, loginFailed }) => {
             >
               {msg}
             </p>
+            {modalOn ? Loading() : ""}
             <Form onSubmit={HandleSubmit}>
               <div style={{ fontSize: 13, color: "red" }}>{error}</div>
               <SearchContainer>
@@ -138,7 +146,6 @@ const Login = ({ login, isStaff, isAuthenticated, loginFailed }) => {
                 disabled={
                   inputValues.email && inputValues.password ? false : true
                 }
-                onClick={HandleSubmit}
                 style={{
                   backgroundColor: "#00ffff",
                   color: "white",
@@ -171,4 +178,4 @@ const mapStateToProps = (state) => ({
   isStaff: state.auth.isStaff,
 });
 
-export default connect(mapStateToProps, { login })(Login);
+export default connect(mapStateToProps, { login, reset })(Login);

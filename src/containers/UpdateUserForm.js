@@ -24,6 +24,7 @@ import {
 } from "../components/Styled";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { motion } from "framer-motion";
+import Loading from "../components/Loading";
 
 const UpdateUserForm = () => {
   document.title = "update user profile";
@@ -35,6 +36,7 @@ const UpdateUserForm = () => {
   const [msg, setMsg] = useState("");
   const [data, setData] = useState(user);
   const [updated, setUpdated] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {}, [updated]);
 
@@ -98,6 +100,7 @@ const UpdateUserForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true);
     const body = new FormData();
 
     const profile = mergeFields(inputs, profileKeys);
@@ -148,12 +151,19 @@ const UpdateUserForm = () => {
           body,
           config
         )
-        .then((response) => setData(response.data))
-        .catch((error) => setError(error));
+        .then((response) => {
+          setLoading(false);
+          setData(response.data);
+        })
+        .catch((error) => {
+          setLoading(false);
+          setError(error.response.status);
+        });
       setUpdated(!updated);
       setMsg("User updated successfully");
     } catch (error) {
-      setError(error);
+      setLoading(false);
+      setError(error.response.status);
     }
 
     window.scrollTo({
@@ -183,6 +193,7 @@ const UpdateUserForm = () => {
         </Back>
         <p style={{ color: "red" }}>{error}</p>
         <p>{msg}</p>
+        {loading ? Loading() : ""}
         <FormDisplay>
           <Form
             style={formDisplay}

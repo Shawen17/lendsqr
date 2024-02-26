@@ -23,6 +23,7 @@ import {
   MiniContainer,
 } from "../../components/Styled";
 import { useNavigate } from "react-router-dom";
+import Loading from "../Loading";
 
 const LoanForm = ({ user, update_portfolio }) => {
   const navigate = useNavigate();
@@ -30,6 +31,7 @@ const LoanForm = ({ user, update_portfolio }) => {
   const [error, setError] = useState("");
   const [inputs, setInputs] = useState({});
   const [msg, setMsg] = useState("");
+  const [click, setClicked] = useState(false);
 
   const handleChange = (event) => {
     setError("");
@@ -99,6 +101,7 @@ const LoanForm = ({ user, update_portfolio }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setClicked(true);
 
     const profile = mergeFields(inputs, profileKeys);
     const guarantor = mergeFields(inputs, guarantorKeys);
@@ -143,7 +146,9 @@ const LoanForm = ({ user, update_portfolio }) => {
           data,
           config
         )
-        .then((response) => setMsg(response.data.message));
+        .then((response) => {
+          setMsg(response.data.message);
+        });
     } catch (error) {
       if (error.response.status === 409) {
         setError(
@@ -156,6 +161,7 @@ const LoanForm = ({ user, update_portfolio }) => {
       }
     }
 
+    setClicked(false);
     setInputs({});
 
     window.scrollTo({
@@ -192,6 +198,7 @@ const LoanForm = ({ user, update_portfolio }) => {
       </Details>
       <p style={{ color: "red" }}>{error}</p>
       <p>{msg}</p>
+      {click ? Loading() : ""}
       <FormDisplay>
         <Form
           style={formDisplay}

@@ -20,8 +20,15 @@ import {
   PORTFOLIO_RETRIVAL_FAIL,
   PORTFOLIO_UPDATE_SUCCESS,
   PORTFOLIO_UPDATE_FAIL,
+  RESET_DONE,
 } from "./types";
 import axios from "axios";
+
+export const reset = () => async (dispatch) => {
+  dispatch({
+    type: RESET_DONE,
+  });
+};
 
 export const checkIsAuthenticated = () => async (dispatch) => {
   if (localStorage.getItem("access")) {

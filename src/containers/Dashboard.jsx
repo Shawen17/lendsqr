@@ -5,6 +5,7 @@ import Users from "../components/Users";
 import NavBar from "../components/NavBar";
 import axios from "axios";
 import { motion } from "framer-motion";
+import Loading from "../components/Loading";
 
 const Container = styled.div`
   padding: 8px;
@@ -95,6 +96,8 @@ const Dashboard = () => {
   window.title = "Dashboard";
   const [searchValue, setSearchValue] = useState([]);
   const [page, setPage] = useState(1);
+  const [modal, setModal] = useState(false);
+  const [error, setError] = useState("");
   const [filterInProgress, setFilterInProgress] = useState(false);
   const [statusUpated, setStatusUpdated] = useState(false);
   const [raw, setRaw] = useState({
@@ -120,12 +123,14 @@ const Dashboard = () => {
 
   const nextPage = () => {
     if (page < Math.ceil(raw.items.all_users / PageSize)) {
+      setModal(true);
       setPage(page + 1);
     }
   };
 
   const prevPage = () => {
     if (page > 1) {
+      setModal(true);
       setPage(page - 1);
     }
   };
@@ -149,10 +154,17 @@ const Dashboard = () => {
 
           config
         )
-        .then((res) => setRaw({ items: res.data }))
-        .catch((error) => console.log(error));
+        .then((res) => {
+          setModal(false);
+          setRaw({ items: res.data });
+        })
+        .catch((error) => {
+          setModal(false);
+          setError(error);
+        });
     } catch (error) {
-      console.log(error);
+      setModal(false);
+      setError(error);
     }
   }, [page, statusUpated]);
 
@@ -175,9 +187,9 @@ const Dashboard = () => {
             config
           )
           .then((res) => setFilteredUsers(res.data))
-          .catch((error) => console.log(error));
+          .catch((error) => setError(error));
       } catch (error) {
-        console.log(error);
+        setError(error);
       }
       setPage(1);
     } else {
@@ -244,6 +256,8 @@ const Dashboard = () => {
                 <StatNum>{raw.items.savings}</StatNum>
               </Stats>
             </Dashstats>
+            {error}
+            {modal ? Loading() : ""}
             <Users
               page={page}
               filterInProgress={filterInProgress}

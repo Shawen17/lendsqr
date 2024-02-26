@@ -23,6 +23,7 @@ import {
   Back,
 } from "../components/Styled";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import Loading from "../components/Loading";
 
 const AddUserForm = () => {
   document.title = "new user";
@@ -30,6 +31,7 @@ const AddUserForm = () => {
   const [error, setError] = useState("");
   const [inputs, setInputs] = useState({});
   const [msg, setMsg] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const Handleback = () => {
     navigate(-1);
@@ -90,7 +92,7 @@ const AddUserForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    setLoading(true);
     const profile = mergeFields(inputs, profileKeys);
     const guarantor = mergeFields(inputs, guarantorKeys);
     const socials = mergeFields(inputs, socialsKeys);
@@ -104,13 +106,20 @@ const AddUserForm = () => {
     const account = { ...partAccount, monthlyIncome: monthlyIncome };
 
     const data = new FormData();
-    data.append("account", JSON.stringify(account));
-    data.append("organization", JSON.stringify(organization));
-    data.append("education", JSON.stringify(education));
-    data.append("socials", JSON.stringify(socials));
-    data.append("guarantor", JSON.stringify(guarantor));
-    data.append("profile", JSON.stringify(profile));
-    data.append("avatar", inputs.avatar);
+
+    inputs.avatar && data.append("avatar", inputs.avatar);
+    Object.keys(organization).length > 0 &&
+      data.append("organization", JSON.stringify(organization));
+    Object.keys(education).length > 0 &&
+      data.append("education", JSON.stringify(education));
+    Object.keys(socials).length > 0 &&
+      data.append("socials", JSON.stringify(socials));
+    Object.keys(guarantor).length > 0 &&
+      data.append("guarantor", JSON.stringify(guarantor));
+    Object.keys(profile).length > 0 &&
+      data.append("profile", JSON.stringify(profile));
+    Object.keys(account).length > 0 &&
+      data.append("account", JSON.stringify(account));
 
     const config = {
       headers: {
@@ -128,9 +137,11 @@ const AddUserForm = () => {
       );
       setMsg("User added successfully");
     } catch (error) {
-      setError(error);
+      if (error.response) {
+        setError(error.response.status);
+      }
     }
-
+    setLoading(false);
     setInputs({});
 
     window.scrollTo({
@@ -151,6 +162,7 @@ const AddUserForm = () => {
       </Back>
       <p style={{ color: "red" }}>{error}</p>
       <p>{msg}</p>
+      {loading ? Loading() : ""}
       <FormDisplay>
         <Form
           style={formDisplay}
