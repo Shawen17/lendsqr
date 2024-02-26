@@ -151,7 +151,6 @@ const Dashboard = () => {
       axios
         .get(
           `${process.env.REACT_APP_LENDSQR_API_URL}/api/users/?page=${page}`,
-
           config
         )
         .then((res) => {
