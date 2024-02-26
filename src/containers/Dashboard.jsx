@@ -146,7 +146,6 @@ const Dashboard = () => {
         Accept: "application/json",
       },
     };
-
     try {
       axios
         .get(
