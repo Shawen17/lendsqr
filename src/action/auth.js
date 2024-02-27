@@ -114,7 +114,7 @@ export const login = (email, password) => async (dispatch) => {
 
   try {
     const res = await axios.post(
-      "lendsqr-backend.vercel.app/auth/jwt/create/",
+      `${process.env.REACT_APP_LENDSQR_API_URL}/auth/jwt/create/`,
       body,
       config
     );
