@@ -155,6 +155,7 @@ const TopMenu = styled.div`
 const NavBar = (props) => {
   const [toggle, setToggle] = useState(false);
   const [profilePicture, setProfilePicture] = useState(defaultPic);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     if (
@@ -163,7 +164,7 @@ const NavBar = (props) => {
       props.details.profile.avatar
     ) {
       setProfilePicture(
-        `${process.env.REACT_APP_LENDSQR_API_URL}${props.details.profile.avatar}`
+        `${process.env.REACT_APP_MEDIA_URL}${props.details.profile.avatar}`
       );
     }
   }, [props.details]);
@@ -192,9 +193,11 @@ const NavBar = (props) => {
             config
           )
           .then((response) => response)
-          .catch((error) => console.log(error));
+          .catch((error) => error.response && setError(error.response.error));
       } catch (error) {
-        console.log(error);
+        if (error.response) {
+          setError(error.response.error);
+        }
       }
     };
     props.get_portfolio(props.details.profile.email);
@@ -223,10 +226,14 @@ const NavBar = (props) => {
             className="notify"
             style={{ height: 40, width: 40, marginRight: "6px" }}
           />
-          <ProfilePicture
-            currentPicture={profilePicture}
-            onPictureChange={handlePictureChange}
-          />
+          {error ? (
+            error
+          ) : (
+            <ProfilePicture
+              currentPicture={profilePicture}
+              onPictureChange={handlePictureChange}
+            />
+          )}
         </Navlink>
 
         <DropDownContainer>
