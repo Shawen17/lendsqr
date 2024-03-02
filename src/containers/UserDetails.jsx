@@ -108,8 +108,8 @@ const UserDetails = () => {
               <Wrapper>
                 <ProfilePic
                   src={
-                    user.profile.avatar.startsWith("/")
-                      ? `${process.env.REACT_APP_LENDSQR_API_URL}${user.profile.avatar}`
+                    user.profile.avatar.split("/").length === 4
+                      ? `${process.env.REACT_APP_MEDIA_URL}${user.profile.avatar}`
                       : user.profile.avatar
                   }
                   alt="avatar"

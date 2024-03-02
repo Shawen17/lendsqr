@@ -163,9 +163,15 @@ const NavBar = (props) => {
       props.details.profile &&
       props.details.profile.avatar
     ) {
-      setProfilePicture(
-        `${process.env.REACT_APP_MEDIA_URL}${props.details.profile.avatar}`
-      );
+      const path = props.details.profile.avatar;
+      const members = path.split("/").length;
+      if (members === 4) {
+        setProfilePicture(
+          `${process.env.REACT_APP_MEDIA_URL}${props.details.profile.avatar}`
+        );
+      } else {
+        setProfilePicture(`${props.details.profile.avatar}`);
+      }
     }
   }, [props.details]);
 
