@@ -227,7 +227,7 @@ const NavBar = (props) => {
           <Menu onClick={props.onMenuClick} />
         </div>
         <Navlink>
-          <Link to="/">Docs</Link>
+          <Link to=" ">Docs</Link>
           <NotificationsOutlined
             className="notify"
             style={{ height: 40, width: 40, marginRight: "6px" }}
